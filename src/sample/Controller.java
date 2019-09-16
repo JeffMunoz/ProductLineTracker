@@ -1,4 +1,3 @@
 package sample;
-
-public class Controller {
-}
+// analyze-> inspect code
+public class Controller {}

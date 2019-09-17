@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,17 +14,26 @@
         <tabs>
           <Tab text="Product Line">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="161.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Say 'Hello'" />
+                     </children></AnchorPane>
             </content>
           </Tab>
           <Tab text="Record Production">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                    <Button layoutX="148.0" layoutY="122.0" mnemonicParsing="false" onAction="#goodByeBTN" text="Say 'Good-Bye'" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab text="Production Log">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="174.0" layoutY="115.0" mnemonicParsing="false" onAction="#welcomeBTN" text="Hello there!'" />
+                     </children></AnchorPane>
                 </content>
             </Tab>
         </tabs>
@@ -33,6 +43,8 @@
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
       <RowConstraints />
    </rowConstraints>
 </GridPane>

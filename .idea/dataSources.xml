@@ -7,5 +7,11 @@
       <jdbc-driver>org.h2.Driver</jdbc-driver>
       <jdbc-url>jdbc:h2:$PROJECT_DIR$/res/ProductionDB</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Production" uuid="b58b7a7c-aa29-46c7-8c29-9bc6c22068d8">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:$PROJECT_DIR$/res/Production</jdbc-url>
+    </data-source>
   </component>
 </project>

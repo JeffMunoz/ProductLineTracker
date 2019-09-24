@@ -39,9 +39,9 @@
                               <Label prefHeight="11.0" prefWidth="94.0" text="Product Name" />
                               <Label text="Manufacturer " GridPane.rowIndex="1" />
                               <Label prefHeight="17.0" prefWidth="60.0" text="Item Type" GridPane.rowIndex="2" />
-                              <TextField GridPane.columnIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="prName" GridPane.columnIndex="1" />
+                              <TextField fx:id="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="type" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <TableView layoutX="96.0" layoutY="290.0" prefHeight="97.0" prefWidth="376.0">
@@ -62,7 +62,8 @@
                     <Button layoutX="231.0" layoutY="256.0" mnemonicParsing="false" onAction="#goodByeBTN" text="Record Prodcution" />
                         <Label layoutX="184.0" layoutY="20.0" text="Choose Product" />
                         <ListView layoutX="184.0" layoutY="47.0" prefHeight="103.0" prefWidth="200.0" />
-                        <ComboBox layoutX="209.0" layoutY="192.0" prefWidth="150.0" promptText="Quantity" />
+                        <ComboBox fx:id="cBox" editable="true" layoutX="209.0" layoutY="192.0" prefWidth="150.0" />
+                        <Label layoutX="209.0" layoutY="163.0" text="Choose Quantity" />
                      </children></AnchorPane>
             </content>
           </Tab>

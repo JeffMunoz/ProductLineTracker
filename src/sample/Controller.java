@@ -19,10 +19,12 @@ import javax.xml.soap.Text;
 // analyze-> inspect code
 public class Controller {
   Statement stmt = null;
+  Connection conn = null;
   @FXML private ComboBox<String> cBox = new ComboBox<>();
   @FXML private TextField prName = new TextField();
   @FXML private TextField Manufacturer  = new TextField();
   @FXML private TextField type = new TextField();
+
 
   public void initialize() {
     // Connection to the database
@@ -35,7 +37,6 @@ public class Controller {
     final String PASS = "";
 
 
-    Connection conn = null;
 
     try {
       Class.forName(JDBC_DRIVER);
@@ -43,7 +44,7 @@ public class Controller {
       conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
       stmt = conn.createStatement();
-        cBox.getItems().addAll("1","2","3","4","5","6","7","8","9","10");
+      cBox.getItems().addAll("1","2","3","4","5","6","7","8","9","10");
       cBox.getSelectionModel().selectFirst();
       cBox.setEditable(true);
 
@@ -52,7 +53,8 @@ public class Controller {
       // e.printStackTrace();
       System.out.println("Unable to find class");
     } catch (SQLException e) {
-      System.out.println("Error in SQL please try again");
+        e.printStackTrace();
+//      System.out.println("Error in SQL please try again");
     }
   }
 
@@ -63,26 +65,30 @@ public class Controller {
       String newProductName = prName.getText();
       String newProductMan = Manufacturer.getText();
       String newProductType = type.getText();
-      //String sqlAdd = "INSERT INTO Product(type, manufacturer, name) VALUES ( 'newProductType', 'newProductMan', 'newProductName' );";
-      //stmt.executeUpdate(sqlAdd);
+     // String sqlAdd = "INSERT INTO Product(type, manufacturer, name) VALUES ("+ newProductType +','+newProductMan
+    //+"," +newProductName +");";
+     // stmt.executeUpdate(sqlAdd);
+      //System.out.println(sqlAdd);
       String sql = "SELECT * FROM PRODUCT;";
       ResultSet rs = stmt.executeQuery(sql);
       ResultSetMetaData rsmd = rs.getMetaData();
       int numberOfColumns = rsmd.getColumnCount();
       boolean b = rsmd.isSearchable(1);
       for(int i = 1;i <= numberOfColumns; i++ ){
-        System.out.println(rsmd.getColumnName(i) + "\t");
+        System.out.print(rsmd.getColumnName(i) + "\t");
       }
-      System.out.println("\n");
+      System.out.println(" ");
       while (rs.next()) {
         for(int i = 1; i <= numberOfColumns; i++){
-        System.out.println(rs.getString(i) + "\t ");
+          System.out.print(rs.getString(i) + "\t ");
         }
-        System.out.println("\n");
+        System.out.println(" ");
       }
+
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
   }
 
   @FXML

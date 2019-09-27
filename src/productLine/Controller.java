@@ -1,4 +1,4 @@
-package sample;
+package productLine;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,15 +6,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javax.xml.soap.Text;
 
 // analyze-> inspect code
 public class Controller {
@@ -24,7 +19,6 @@ public class Controller {
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
   @FXML private TextField type = new TextField();
-
 
   /**
    * * This is the start method of the controller.
@@ -39,12 +33,12 @@ public class Controller {
     // JDBC driver name and database URL
     final String Jdbc_Driver = "org.h2.Driver";
     final String Db_Url = "jdbc:h2:./res/ProductionDB";
-    final String user = " ";
-    final String pass = " ";
+    final String user = "";
+    final String pass = "";
 
     try {
       Class.forName(Jdbc_Driver);
-
+      // uses an empty password for now but it will be addressed at a later time
       conn = DriverManager.getConnection(Db_Url, user, pass);
 
       stmt = conn.createStatement();
@@ -82,6 +76,7 @@ public class Controller {
               + newProductName
               + "'"
               + ");";
+      // non cosntsnt string used but it will be replaced with a prepared statement later
       stmt.executeUpdate(sqlAdd);
       // System.out.println(sqlAdd);
       String sql = "SELECT * FROM PRODUCT;";

@@ -6,13 +6,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/** @author Jeffry Munoz.
- *  @breif To demonstrate the usage of Javafx and dataBases */
+/**
+ * This program sets up a basic GUI and connects to a data base that allows users to add products to
+ * the database.
+ *
+ * @author Jeffry Munoz.
+ */
 public class Main extends Application {
 
   /**
    * * This is the start method of the Javafx program.
-   * @breif This creates the stage for the GUI
+   *
    * @param primaryStage This a primary stage
    * @throws Exception Causes an exception to be thrown and caught else where to avoid crashing.
    */
@@ -24,6 +28,8 @@ public class Main extends Application {
     primaryStage.show();
   }
 
+  /** * This is the driver class of the program.
+   * @param args this is the input array of strings to be used in the program*/
   public static void main(String[] args) {
     launch(args);
   }

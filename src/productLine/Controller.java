@@ -12,19 +12,23 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 // analyze-> inspect code
+/**
+ * This class handles all the events that user creates from the GUI.
+ * This class uses the default constructor as it does not take in a arguments.
+ *
+ */
 public class Controller {
-  Statement stmt = null;
-  Connection conn = null;
+  private Statement stmt = null;
+  private Connection conn = null;
+
   @FXML private ComboBox<String> quantityCBox = new ComboBox<>();
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
   @FXML private TextField type = new TextField();
 
   /**
-   * * This is the start method of the controller.
-   * @breif  initializes the connection to the data base and populates the combo box
-   * @throws Exception Causes an exception to be thrown if there is an issue with the Data base
-   *         connection.
+   * * This is the start method of the controller, initializes the connection to the data base and
+   * populates the combo box.
    */
   public void initialize() {
     // Connection to the database
@@ -47,14 +51,20 @@ public class Controller {
       quantityCBox.setEditable(true);
 
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
       System.out.println("Unable to find class");
     } catch (SQLException e) {
-      e.printStackTrace();
-      //      System.out.println("Error in SQL please try again");
+      // e.printStackTrace();
+      System.out.println("Error in SQL please try again");
     }
   }
 
+  /**
+   * This is action handler that adds products to the data base and obtains the information when the
+   * button is clicked.
+   *
+   * @param event this detects when the button is clicked.
+   */
   @FXML
   private void handleButtonAction(ActionEvent event) {
     try {
@@ -76,7 +86,7 @@ public class Controller {
               + newProductName
               + "'"
               + ");";
-      // non cosntsnt string used but it will be replaced with a prepared statement later
+      // non constant string used but it will be replaced with a prepared statement later
       stmt.executeUpdate(sqlAdd);
       // System.out.println(sqlAdd);
       String sql = "SELECT * FROM PRODUCT;";
@@ -94,17 +104,29 @@ public class Controller {
         }
         System.out.println(" ");
       }
+      stmt.close();
+      conn.close();
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
+  /**
+   * This is action handler that outputs to the console when the button is clicked.
+   *
+   * @param event this detects when the button is clicked.
+   */
   @FXML
   private void goodByeBtn(ActionEvent event) {
     System.out.println("Production Recorded");
   }
 
+  /**
+   * This is action handler that outputs to the console when the button is clicked.
+   *
+   * @param event this detects when the button is clicked.
+   */
   @FXML
   private void welcomeBtn(ActionEvent event) {
     System.out.println("General Kenobi!");

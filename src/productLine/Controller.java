@@ -13,10 +13,11 @@ import javafx.scene.control.TextField;
 
 // analyze-> inspect code
 /**
- * This class handles all the events that user creates from the GUI.
- * This class uses the default constructor as it does not take in a arguments.
- *
+ * This class handles all the events that user creates from the GUI. This class uses the default
+ * constructor as it does not take in a arguments.
  */
+// creates a warning that the class can be made "package private" but when changed
+// the fxml files creates an error
 public class Controller {
   private Statement stmt = null;
   private Connection conn = null;
@@ -46,7 +47,9 @@ public class Controller {
       conn = DriverManager.getConnection(Db_Url, user, pass);
 
       stmt = conn.createStatement();
+      // Items to be placed in the comboBox
       quantityCBox.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+      // allows users to edit the contents of the ComboBox
       quantityCBox.getSelectionModel().selectFirst();
       quantityCBox.setEditable(true);
 
@@ -69,6 +72,7 @@ public class Controller {
   private void handleButtonAction(ActionEvent event) {
     try {
 
+      // Obtains the input from the text fields
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
       String newProductType = type.getText();
@@ -94,6 +98,7 @@ public class Controller {
       ResultSetMetaData rsmd = rs.getMetaData();
       int numberOfColumns = rsmd.getColumnCount();
 
+      // These loops are used to out put the table of data to the console
       for (int i = 1; i <= numberOfColumns; i++) {
         System.out.print(rsmd.getColumnName(i) + "\t");
       }
@@ -129,6 +134,6 @@ public class Controller {
    */
   @FXML
   private void welcomeBtn(ActionEvent event) {
-    System.out.println("General Kenobi!");
+    System.out.println("Hello World!");
   }
 }

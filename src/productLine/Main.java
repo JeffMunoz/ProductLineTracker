@@ -24,12 +24,15 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("product.fxml"));
     primaryStage.setTitle("Production Line");
-    primaryStage.setScene(new Scene(root, 300, 275));
+    primaryStage.setScene(new Scene(root, 650, 500));
     primaryStage.show();
   }
 
-  /** * This is the driver class of the program.
-   * @param args this is the input array of strings to be used in the program*/
+  /**
+   * * This is the driver class of the program.
+   *
+   * @param args this is the input array of strings to be used in the program
+   */
   public static void main(String[] args) {
     launch(args);
   }

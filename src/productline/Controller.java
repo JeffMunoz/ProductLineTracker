@@ -1,4 +1,4 @@
-package productLine;
+package productline;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

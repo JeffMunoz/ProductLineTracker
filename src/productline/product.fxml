@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.171"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="productLine.Controller">
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="productline.Controller">
 
   <TabPane prefHeight="437.0" prefWidth="567.0" tabClosingPolicy="UNAVAILABLE">
 
@@ -26,7 +26,7 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
         <Button layoutX="246.0" layoutY="149.0" mnemonicParsing="false"
-          onAction="#handleButtonAction" text="Add Product"/>
+          onAction="#handleButtonAction" text="Add Product" styleClass="button"/>
         <GridPane alignment="CENTER_LEFT" layoutX="36.0" layoutY="10.0" prefHeight="109.0"
           prefWidth="285.0">
           <columnConstraints>
@@ -66,7 +66,7 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
         <Button layoutX="231.0" layoutY="256.0" mnemonicParsing="false"
-          onAction="#goodByeBtn" text="Record Production"/>
+          onAction="#goodByeBtn" text="Record Production" styleClass="button"/>
         <Label layoutX="184.0" layoutY="20.0" text="Choose Product"/>
         <ListView layoutX="184.0" layoutY="47.0" prefHeight="103.0" prefWidth="200.0"/>
         <ComboBox fx:id="quantityCBox" editable="true" layoutX="209.0" layoutY="192.0"
@@ -81,7 +81,7 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
         <Button layoutX="248.0" layoutY="231.0" mnemonicParsing="false"
-          onAction="#welcomeBtn" text="Hello there!"/>
+          onAction="#welcomeBtn" text="Hello there!" styleClass="button"/>
         <TextArea layoutX="184.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0"
           promptText="TextArea"/>
 

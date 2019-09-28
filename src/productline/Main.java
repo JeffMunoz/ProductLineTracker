@@ -1,4 +1,4 @@
-package productLine;
+package productline;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

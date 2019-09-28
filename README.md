@@ -27,4 +27,4 @@ Jeffry Munoz
 ## History
 
 ## Key Programming Concepts Utilized
-The use of connections to databases and the seeting up a GUI.
+The use of connections to databases and the setting up a GUI.

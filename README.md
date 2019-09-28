@@ -7,10 +7,10 @@ OOP Database Project
 
 ## Diagrams
 Class Diagrams:
-![Class Diagram](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/path/to/PackageProductLine.png)
+![Class Diagram](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/Javadoc/to/PackageProductLine.png)
 
 Database Visualization:
-![Database](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/path/to/ProductionDB.png)
+![Database](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/Javadoc/to/ProductionDB.png)
 ## Getting Started
 
 ## Built With

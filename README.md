@@ -4,7 +4,7 @@ OOP Project which aims to put into practice all of the concepts and practices le
 ## Demonstration
 
 ## Documentation
-Documentation avaliable trough Javadoc. 
+Documentation available trough Javadoc. 
 
 ## Diagrams
 Class Diagrams:
@@ -24,7 +24,7 @@ Jeffry Munoz
 ## License
 Standard
 ## Acknowledgments
-Useful information about data base connections and usage provided by tuttorialspoint.
+Useful information about data base connections and usage provided by tutorialspoint.
 Special thanks to Professor Vanselow for his guidance.
 
 ## History

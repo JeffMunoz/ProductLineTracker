@@ -6,15 +6,20 @@ OOP Database Project
 ## Documentation
 
 ## Diagrams
+Class Diagrams:
+![Class Diagram](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/to/Package ProductLine.png)
 
+Database Visualization:
+![Database](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/to/ProductionDB.png)
 ## Getting Started
 
 ## Built With
+This program was built with JavaFX for the GUI portion and with H2 as the data base driver.
 
 ## Contributing
 
 ## Author
-
+Jeffry Munoz
 ## License
 
 ## Acknowledgments
@@ -22,3 +27,4 @@ OOP Database Project
 ## History
 
 ## Key Programming Concepts Utilized
+The use of connections to databases and the seeting up a GUI.

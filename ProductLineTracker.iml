@@ -6,9 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" scope="TEST" name="h2-1.4.199" level="project" />
+    <orderEntry type="library" exported="" name="h2-1.4.199" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://D:/H2/bin/h2-1.4.199.jar!/" />

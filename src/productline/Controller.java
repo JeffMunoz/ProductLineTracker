@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
@@ -25,7 +26,7 @@ public class Controller {
   @FXML private ComboBox<String> quantityCBox = new ComboBox<>();
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
-  @FXML private TextField type = new TextField();
+  @FXML private ChoiceBox type = new ChoiceBox();
 
   /**
    * * This is the start method of the controller, initializes the connection to the data base and
@@ -53,6 +54,11 @@ public class Controller {
       quantityCBox.getSelectionModel().selectFirst();
       quantityCBox.setEditable(true);
 
+      // Populates the choice box with the type of items form the enum
+      for (ItemType typeOfItem : ItemType.values()) {
+        type.getItems().add(typeOfItem);
+      }
+
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
       System.out.println("Unable to find class");
@@ -75,7 +81,7 @@ public class Controller {
       // Obtains the input from the text fields
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
-      String newProductType = type.getText();
+      String newProductType = String.valueOf(type.getSelectionModel().getSelectedItem());
       String sqlAdd =
           "INSERT INTO Product(type, manufacturer, name) VALUES ("
               + " ' "

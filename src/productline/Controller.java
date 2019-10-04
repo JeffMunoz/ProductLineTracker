@@ -2,6 +2,7 @@ package productline;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -82,23 +83,13 @@ public class Controller {
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
       String newProductType = String.valueOf(type.getSelectionModel().getSelectedItem());
-      String sqlAdd =
-          "INSERT INTO Product(type, manufacturer, name) VALUES ("
-              + " ' "
-              + newProductType
-              + " ' "
-              + ','
-              + "'"
-              + newProductMan
-              + "'"
-              + ","
-              + "'"
-              + newProductName
-              + "'"
-              + ");";
-      // non constant string used but it will be replaced with a prepared statement later
-      stmt.executeUpdate(sqlAdd);
-      // System.out.println(sqlAdd);
+      String preparedStm = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? )";
+      PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
+      preparedStatement.setString(1, newProductType);
+      preparedStatement.setString(2, newProductMan);
+      preparedStatement.setString(3, newProductName);
+      // non constant string replaced with a prepared statement later
+      int sqlAdd = preparedStatement.executeUpdate();
       String sql = "SELECT * FROM PRODUCT;";
       ResultSet rs = stmt.executeQuery(sql);
       ResultSetMetaData rsmd = rs.getMetaData();
@@ -115,6 +106,8 @@ public class Controller {
         }
         System.out.println(" ");
       }
+
+      preparedStatement.close();
       stmt.close();
       conn.close();
 

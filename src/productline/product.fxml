@@ -17,6 +17,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<!--Author: Jeff Munoz-->
+
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="productline.Controller">
 
   <TabPane prefHeight="437.0" prefWidth="567.0" tabClosingPolicy="UNAVAILABLE">
@@ -47,8 +49,9 @@
         </GridPane>
         <TableView layoutX="96.0" layoutY="290.0" prefHeight="97.0" prefWidth="376.0">
           <columns>
-            <TableColumn prefWidth="75.0" text="C1" />
-            <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn prefWidth="109.0" text="Name" />
+            <TableColumn prefWidth="145.0" text="Manufacturer" />
+                  <TableColumn prefWidth="121.0" text="Type" />
           </columns>
         </TableView>
         <Label layoutX="96.0" layoutY="266.0" text="Existing Products" />
@@ -60,7 +63,7 @@
 
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
-        <Button layoutX="231.0" layoutY="256.0" mnemonicParsing="false" onAction="#goodByeBtn" styleClass="button" text="Record Production" />
+        <Button layoutX="231.0" layoutY="256.0" mnemonicParsing="false" onAction="#produceBtn" styleClass="button" text="Record Production" />
         <Label layoutX="184.0" layoutY="20.0" text="Choose Product" />
         <ListView layoutX="184.0" layoutY="47.0" prefHeight="103.0" prefWidth="200.0" />
         <ComboBox fx:id="quantityCBox" editable="true" layoutX="209.0" layoutY="192.0" prefWidth="150.0" />
@@ -73,7 +76,7 @@
 
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
-        <Button layoutX="248.0" layoutY="231.0" mnemonicParsing="false" onAction="#welcomeBtn" styleClass="button" text="Hello there!" />
+        <Button layoutX="248.0" layoutY="231.0" mnemonicParsing="false" onAction="#logBtn" styleClass="button" text="Hello there!" />
         <TextArea layoutX="184.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" promptText="TextArea" />
 
       </AnchorPane>

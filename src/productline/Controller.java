@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-
+// Author: Jeff Munoz
 // analyze-> inspect code
 /**
  * This class handles all the events that user creates from the GUI. This class uses the default
@@ -83,13 +83,13 @@ public class Controller {
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
       String newProductType = String.valueOf(type.getSelectionModel().getSelectedItem());
-      String preparedStm = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? )";
+      String preparedStm = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       preparedStatement.setString(1, newProductType);
       preparedStatement.setString(2, newProductMan);
       preparedStatement.setString(3, newProductName);
-      // non constant string replaced with a prepared statement later
-      int sqlAdd = preparedStatement.executeUpdate();
+      // non constant string replaced with a prepared statement
+      preparedStatement.executeUpdate();
       String sql = "SELECT * FROM PRODUCT;";
       ResultSet rs = stmt.executeQuery(sql);
       ResultSetMetaData rsmd = rs.getMetaData();
@@ -122,7 +122,7 @@ public class Controller {
    * @param event this detects when the button is clicked.
    */
   @FXML
-  private void goodByeBtn(ActionEvent event) {
+  private void produceBtn(ActionEvent event) {
     System.out.println("Production Recorded");
   }
 
@@ -132,7 +132,7 @@ public class Controller {
    * @param event this detects when the button is clicked.
    */
   @FXML
-  private void welcomeBtn(ActionEvent event) {
+  private void logBtn(ActionEvent event) {
     System.out.println("Hello World!");
   }
 }

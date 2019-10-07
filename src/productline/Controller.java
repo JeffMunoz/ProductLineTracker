@@ -75,8 +75,6 @@ public class Controller {
       currentProducts.getColumns().add(currentManufacturer);
       currentProducts.getColumns().add(currentType);
 
-
-
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
       System.out.println("Unable to find class");
@@ -115,7 +113,6 @@ public class Controller {
       // These loops are used to out put the table of data to the console
       for (int i = 1; i <= numberOfColumns; i++) {
         System.out.print(rsmd.getColumnName(i) + "\t");
-
       }
       System.out.println(" ");
       while (rs.next()) {

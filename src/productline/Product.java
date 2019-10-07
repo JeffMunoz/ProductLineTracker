@@ -1,47 +1,44 @@
 package productline;
 
-public abstract class Product implements Item{
+public abstract class Product implements Item {
   private String name;
   private String manufacturer;
   private String type;
-  private int    id;
+  private int id;
 
-  public String getName(){
+  public String getName() {
     return name;
   }
-  public String getManu(){
+
+  public String getManu() {
     return manufacturer;
   }
-  public int getId(){
+
+  public int getId() {
     return id;
   }
 
-  public void setName(String name){
+  public void setName(String name) {
     this.name = name;
   }
 
-  public void setManu(String manufacturer){
+  public void setManu(String manufacturer) {
     this.manufacturer = manufacturer;
   }
-  public Product(String name, String manufacturer, String type){
+
+  public Product(String name, String manufacturer, String type) {
     this.name = name;
     this.manufacturer = manufacturer;
     this.type = type;
   }
-  public String toString(){
-    return"Name: " + name +"\n"+
-        "Manufacturer: " + manufacturer+"\n"+
-        "Type: " + type;
 
+  public String toString() {
+    return "Name: " + name + "\n" + "Manufacturer: " + manufacturer + "\n" + "Type: " + type;
   }
-
-
-}
-class Widget extends Product{
-  public Widget(String name, String manufacturer, String type){
-    super(name,manufacturer,type);
-  }
-
 }
 
-
+class Widget extends Product {
+  public Widget(String name, String manufacturer, String type) {
+    super(name, manufacturer, type);
+  }
+}

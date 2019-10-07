@@ -3,6 +3,15 @@ package productline;
 public abstract class Product implements Item {
   private String name;
   private String manufacturer;
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   private String type;
   private int id;
 

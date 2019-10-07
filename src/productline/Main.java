@@ -29,6 +29,8 @@ public class Main extends Application {
 
     AudioPlayer testAudio = new AudioPlayer("beats", "dre", ".WAV", "Test");
     System.out.println(testAudio);
+    Screen testScreen = new Screen();
+    System.out.println(testScreen);
   }
 
   /**

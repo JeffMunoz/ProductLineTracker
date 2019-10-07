@@ -64,12 +64,12 @@ public class Controller {
         type.getItems().add(typeOfItem);
       }
 
-      TableColumn<String, Product> currentName = new TableColumn<>("Name");
+      TableColumn<Product, String> currentName = new TableColumn<>("Name");
       currentName.setCellValueFactory(new PropertyValueFactory<>("name"));
-      TableColumn<String, Product> currentManufacturer = new TableColumn<>("Manufacturer");
-      currentManufacturer.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
-      TableColumn<String, Product> currentType = new TableColumn<>("Type");
-      currentType.setCellValueFactory(new PropertyValueFactory<>("Type"));
+      TableColumn<Product, String> currentManufacturer = new TableColumn<>("Manufacturer");
+      currentManufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
+      TableColumn<Product, String> currentType = new TableColumn<>("Type");
+      currentType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
       currentProducts.getColumns().add(currentName);
       currentProducts.getColumns().add(currentManufacturer);
@@ -98,12 +98,16 @@ public class Controller {
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
       String newProductType = String.valueOf(type.getSelectionModel().getSelectedItem());
+      // creates a widget object to store in the database
+      Widget newProduct = new Widget(newProductName, newProductMan, newProductType);
+      // non constant string replaced with a prepared statement
       String preparedStm = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
-      preparedStatement.setString(1, newProductType);
-      preparedStatement.setString(2, newProductMan);
-      preparedStatement.setString(3, newProductName);
-      // non constant string replaced with a prepared statement
+      // adds the parameters to the preparedStatement
+      preparedStatement.setString(1, newProduct.getName());
+      preparedStatement.setString(2, newProduct.getManu());
+      preparedStatement.setString(3, newProduct.getType());
+
       preparedStatement.executeUpdate();
       String sql = "SELECT * FROM PRODUCT;";
       ResultSet rs = stmt.executeQuery(sql);
@@ -118,7 +122,8 @@ public class Controller {
       while (rs.next()) {
         for (int i = 1; i <= numberOfColumns; i++) {
           System.out.print(rs.getString(i) + "\t ");
-          currentProducts.getItems().add(rs.getString(i));
+          String tablePop = rs.getString(i);
+          // Widget tableView = new Widget(tablePop,);
         }
         System.out.println(" ");
       }

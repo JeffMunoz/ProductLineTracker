@@ -26,6 +26,9 @@ public class Main extends Application {
     primaryStage.setTitle("Production Line");
     primaryStage.setScene(new Scene(root, 650, 500));
     primaryStage.show();
+
+    AudioPlayer testAudio = new AudioPlayer("beats", "dre", ".WAV", "Test");
+    System.out.println(testAudio);
   }
 
   /**

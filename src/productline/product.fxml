@@ -8,7 +8,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -47,13 +46,7 @@
                <ChoiceBox fx:id="type" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
         </GridPane>
-        <TableView layoutX="96.0" layoutY="290.0" prefHeight="97.0" prefWidth="376.0">
-          <columns>
-            <TableColumn prefWidth="109.0" text="Name" />
-            <TableColumn prefWidth="145.0" text="Manufacturer" />
-                  <TableColumn prefWidth="121.0" text="Type" />
-          </columns>
-        </TableView>
+        <TableView fx:id="currentProducts" layoutX="96.0" layoutY="290.0" prefHeight="97.0" prefWidth="376.0" />
         <Label layoutX="96.0" layoutY="266.0" text="Existing Products" />
 
       </AnchorPane>

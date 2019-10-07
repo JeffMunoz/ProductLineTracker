@@ -2,7 +2,7 @@ package productline;
 
 public abstract class Product implements Item{
   private String name;
-  private String manufaturer;
+  private String manufacturer;
   private String type;
   private int    id;
 
@@ -10,7 +10,7 @@ public abstract class Product implements Item{
     return name;
   }
   public String getManu(){
-    return manufaturer;
+    return manufacturer;
   }
   public int getId(){
     return id;
@@ -20,17 +20,17 @@ public abstract class Product implements Item{
     this.name = name;
   }
 
-  public void setManu(String manufaturer){
-    this.manufaturer = manufaturer;
+  public void setManu(String manufacturer){
+    this.manufacturer = manufacturer;
   }
-  public Product(String name, String manufaturer, String type){
+  public Product(String name, String manufacturer, String type){
     this.name = name;
-    this.manufaturer = manufaturer;
+    this.manufacturer = manufacturer;
     this.type = type;
   }
   public String toString(){
     return"Name: " + name +"\n"+
-        "Manufacturer: " + manufaturer+"\n"+
+        "Manufacturer: " + manufacturer+"\n"+
         "Type: " + type;
 
   }
@@ -38,8 +38,8 @@ public abstract class Product implements Item{
 
 }
 class Widget extends Product{
-  public Widget(String name, String manufaturer, String type){
-    super(name,manufaturer,type);
+  public Widget(String name, String manufacturer, String type){
+    super(name,manufacturer,type);
   }
 
 }

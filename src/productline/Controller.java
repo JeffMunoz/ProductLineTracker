@@ -11,7 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
 // analyze-> inspect code
 /**
@@ -28,6 +31,7 @@ public class Controller {
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
   @FXML private ChoiceBox type = new ChoiceBox();
+  @FXML private TableView currentProducts = new TableView();
 
   /**
    * * This is the start method of the controller, initializes the connection to the data base and
@@ -60,11 +64,24 @@ public class Controller {
         type.getItems().add(typeOfItem);
       }
 
+      TableColumn<String, Product> currentName = new TableColumn<>("Name");
+      currentName.setCellValueFactory(new PropertyValueFactory<>("name"));
+      TableColumn<String, Product> currentManufacturer = new TableColumn<>("Manufacturer");
+      currentManufacturer.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
+      TableColumn<String, Product> currentType = new TableColumn<>("Type");
+      currentType.setCellValueFactory(new PropertyValueFactory<>("Type"));
+
+      currentProducts.getColumns().add(currentName);
+      currentProducts.getColumns().add(currentManufacturer);
+      currentProducts.getColumns().add(currentType);
+
+
+
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
       System.out.println("Unable to find class");
     } catch (SQLException e) {
-      // e.printStackTrace();
+      e.printStackTrace();
       System.out.println("Error in SQL please try again");
     }
   }
@@ -98,11 +115,13 @@ public class Controller {
       // These loops are used to out put the table of data to the console
       for (int i = 1; i <= numberOfColumns; i++) {
         System.out.print(rsmd.getColumnName(i) + "\t");
+
       }
       System.out.println(" ");
       while (rs.next()) {
         for (int i = 1; i <= numberOfColumns; i++) {
           System.out.print(rs.getString(i) + "\t ");
+          currentProducts.getItems().add(rs.getString(i));
         }
         System.out.println(" ");
       }

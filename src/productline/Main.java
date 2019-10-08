@@ -1,5 +1,7 @@
 package productline;
 
+import static productline.MonitorType.LCD;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,8 +31,11 @@ public class Main extends Application {
 
     AudioPlayer testAudio = new AudioPlayer("beats", "dre", ".WAV", "Test");
     System.out.println(testAudio);
-    Screen testScreen = new Screen();
+    Screen testScreen = new Screen("1080x720", 60, 2);
     System.out.println(testScreen);
+
+    MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray","Sony", "720x480", LCD);
+    System.out.println(testMoviePlayer);
   }
 
   /**

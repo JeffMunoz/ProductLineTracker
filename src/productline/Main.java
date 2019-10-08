@@ -34,7 +34,7 @@ public class Main extends Application {
     Screen testScreen = new Screen("1080x720", 60, 2);
     System.out.println(testScreen);
 
-    MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray","Sony", "720x480", LCD);
+   MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray","Sony", "720x480", LCD);
     System.out.println(testMoviePlayer);
   }
 

@@ -3,11 +3,11 @@ package productline;
 public interface Item {
   public String getName();
 
-  public String getManu();
+  public String getManufacturer();
 
   public int getId();
 
   public void setName(String name);
 
-  public void setManu(String manufacturer);
+  public void setManufacturer(String manufacturer);
 }

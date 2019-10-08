@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
 // analyze-> inspect code
+// jfoenix FOR CSS
 /**
  * This class handles all the events that user creates from the GUI. This class uses the default
  * constructor as it does not take in a arguments.
@@ -74,6 +78,7 @@ public class Controller {
       currentProducts.getColumns().add(currentName);
       currentProducts.getColumns().add(currentManufacturer);
       currentProducts.getColumns().add(currentType);
+      populateTable();
 
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
@@ -105,28 +110,11 @@ public class Controller {
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
       preparedStatement.setString(1, newProduct.getName());
-      preparedStatement.setString(2, newProduct.getManu());
+      preparedStatement.setString(2, newProduct.getManufacturer());
       preparedStatement.setString(3, newProduct.getType());
 
       preparedStatement.executeUpdate();
-      String sql = "SELECT * FROM PRODUCT;";
-      ResultSet rs = stmt.executeQuery(sql);
-      ResultSetMetaData rsmd = rs.getMetaData();
-      int numberOfColumns = rsmd.getColumnCount();
-
-      // These loops are used to out put the table of data to the console
-      for (int i = 1; i <= numberOfColumns; i++) {
-        System.out.print(rsmd.getColumnName(i) + "\t");
-      }
-      System.out.println(" ");
-      while (rs.next()) {
-        for (int i = 1; i <= numberOfColumns; i++) {
-          System.out.print(rs.getString(i) + "\t ");
-          String tablePop = rs.getString(i);
-          // Widget tableView = new Widget(tablePop,);
-        }
-        System.out.println(" ");
-      }
+      populateTable();
 
       preparedStatement.close();
       stmt.close();
@@ -155,5 +143,31 @@ public class Controller {
   @FXML
   private void logBtn(ActionEvent event) {
     System.out.println("Hello World!");
+  }
+
+  public void populateTable() {
+    String sql = "SELECT * FROM PRODUCT;";
+    ResultSet rs = null;
+    try {
+      rs = stmt.executeQuery(sql);
+
+      ResultSetMetaData rsmd = rs.getMetaData();
+      int numberOfColumns = rsmd.getColumnCount();
+
+      ArrayList arrOfProducts = new ArrayList();
+      // These loops are used to out put the table of data to the console
+      while (rs.next()) {
+        String name = rs.getString("Name");
+        String manufacturer = rs.getString("Manufacturer");
+        String type = rs.getString("Type");
+        Product tableProducts = new Widget(name, manufacturer, type);
+        arrOfProducts.add(tableProducts);
+      }
+
+      ObservableList products = FXCollections.observableList(arrOfProducts);
+      currentProducts.setItems(products);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

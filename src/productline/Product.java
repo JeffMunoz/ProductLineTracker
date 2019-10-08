@@ -19,7 +19,7 @@ public abstract class Product implements Item {
     return name;
   }
 
-  public String getManu() {
+  public String getManufacturer() {
     return manufacturer;
   }
 
@@ -31,7 +31,7 @@ public abstract class Product implements Item {
     this.name = name;
   }
 
-  public void setManu(String manufacturer) {
+  public void setManufacturer(String manufacturer) {
     this.manufacturer = manufacturer;
   }
 

@@ -58,7 +58,7 @@ public class MoviePlayer extends Product implements MultiMediaControl {
   public String toString() {
     return super.toString()
         + "\n"
-        + "Screen: "
+        + "Screen: Resolution:"
         + screen
         + "\n"
         + "Monitor Type: "

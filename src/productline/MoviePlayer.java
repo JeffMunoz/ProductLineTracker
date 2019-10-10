@@ -1,7 +1,7 @@
 package productline;
-
+// Author: Jeff Munoz
 public class MoviePlayer extends Product implements MultiMediaControl {
-  private String screen;
+  private Screen screen;
   private MonitorType typeOfMonitor;
 
   public MonitorType getTypeOfMonitor() {
@@ -12,11 +12,11 @@ public class MoviePlayer extends Product implements MultiMediaControl {
     this.typeOfMonitor = typeOfMonitor;
   }
 
-  public String getScreen() {
+  public Screen getScreen() {
     return screen;
   }
 
-  public void setScreen(String screen) {
+  public void setScreen(Screen screen) {
     this.screen = screen;
   }
 
@@ -25,7 +25,7 @@ public class MoviePlayer extends Product implements MultiMediaControl {
   public MoviePlayer(
       String name,
       String manufacturer,
-      String screen,
+      Screen screen,
       MonitorType typeOfMonitor) {
     super(name, manufacturer, "Visual_Mobile");
     this.screen = screen;
@@ -58,7 +58,6 @@ public class MoviePlayer extends Product implements MultiMediaControl {
   public String toString() {
     return super.toString()
         + "\n"
-        + "Screen: Resolution:"
         + screen
         + "\n"
         + "Monitor Type: "

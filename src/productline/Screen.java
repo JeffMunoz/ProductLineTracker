@@ -1,5 +1,5 @@
 package productline;
-
+// Author: Jeff Munoz
 public class Screen implements ScreenSpec {
   private String resolution;
   private int refreshRate;

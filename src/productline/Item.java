@@ -1,5 +1,5 @@
 package productline;
-
+// Author: Jeff Munoz
 public interface Item {
   public String getName();
 

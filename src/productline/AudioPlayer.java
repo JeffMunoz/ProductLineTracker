@@ -1,5 +1,5 @@
 package productline;
-
+// Author: Jeff Munoz
 public class AudioPlayer extends Product implements MultiMediaControl {
   private String supportedAudioFormats;
   private String supportedPlaylistFormats;

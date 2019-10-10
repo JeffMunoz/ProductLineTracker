@@ -1,5 +1,5 @@
 package productline;
-
+// Author: Jeff Munoz
 public abstract class Product implements Item {
   private String name;
   private String manufacturer;

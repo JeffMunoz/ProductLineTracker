@@ -43,7 +43,7 @@
           <Label prefHeight="17.0" prefWidth="60.0" text="Item Type" GridPane.rowIndex="2" />
           <TextField fx:id="prName" GridPane.columnIndex="1" />
           <TextField fx:id="manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               <ChoiceBox fx:id="type" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <ChoiceBox fx:id="cbType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
         </GridPane>
         <TableView fx:id="currentProducts" layoutX="96.0" layoutY="290.0" prefHeight="97.0" prefWidth="376.0" />
@@ -70,7 +70,7 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
         <Button layoutX="248.0" layoutY="231.0" mnemonicParsing="false" onAction="#logBtn" styleClass="button" text="Hello there!" />
-        <TextArea layoutX="184.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" promptText="TextArea" />
+        <TextArea fx:id="ta" layoutX="184.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" promptText="TextArea" />
 
       </AnchorPane>
 

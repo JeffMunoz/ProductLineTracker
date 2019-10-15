@@ -1,7 +1,5 @@
 package productline;
 
-import static productline.MonitorType.LCD;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

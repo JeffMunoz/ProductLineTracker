@@ -3,17 +3,19 @@ package productline;
 public abstract class Product implements Item {
   private String name;
   private String manufacturer;
+  private int id;
+  private ItemType type;
 
-  public String getType() {
+  public ItemType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(ItemType type) {
     this.type = type;
   }
 
-  private String type;
-  private int id;
+
+
 
   public String getName() {
     return name;
@@ -35,7 +37,7 @@ public abstract class Product implements Item {
     this.manufacturer = manufacturer;
   }
 
-  public Product(String name, String manufacturer, String type) {
+  public Product(String name, String manufacturer, ItemType type) {
     this.name = name;
     this.manufacturer = manufacturer;
     this.type = type;
@@ -47,7 +49,7 @@ public abstract class Product implements Item {
 }
 
 class Widget extends Product {
-  public Widget(String name, String manufacturer, String type) {
+  public Widget(String name, String manufacturer, ItemType type) {
     super(name, manufacturer, type);
   }
 }

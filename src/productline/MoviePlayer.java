@@ -20,19 +20,16 @@ public class MoviePlayer extends Product implements MultiMediaControl {
     this.screen = screen;
   }
 
-
-
   public MoviePlayer(
       String name,
       String manufacturer,
       Screen screen,
       MonitorType typeOfMonitor) {
-    super(name, manufacturer, "Visual_Mobile");
+    super(name, manufacturer, ItemType.Visual_Mobile);
     this.screen = screen;
     this.typeOfMonitor = typeOfMonitor;
 
   }
-
 
   @Override
   public void play() {

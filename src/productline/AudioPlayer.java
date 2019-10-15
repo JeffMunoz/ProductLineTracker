@@ -9,7 +9,7 @@ public class AudioPlayer extends Product implements MultiMediaControl {
       String manufacturer,
       String supportedAudioFormats,
       String supportedPlaylistFormats) {
-    super(name, manufacturer, "Audio");
+    super(name, manufacturer, ItemType.Audio);
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
   }

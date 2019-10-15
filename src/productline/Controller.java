@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
@@ -34,8 +35,9 @@ public class Controller {
   @FXML private ComboBox<String> quantityCBox = new ComboBox<>();
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
-  @FXML private ChoiceBox type = new ChoiceBox();
+  @FXML private ChoiceBox<ItemType> cbType = new ChoiceBox();
   @FXML private TableView currentProducts = new TableView();
+  @FXML private TextArea ta = new TextArea();
 
   /**
    * * This is the start method of the controller, initializes the connection to the data base and
@@ -62,10 +64,11 @@ public class Controller {
       // allows users to edit the contents of the ComboBox
       quantityCBox.getSelectionModel().selectFirst();
       quantityCBox.setEditable(true);
+      ta.clear();
 
       // Populates the choice box with the type of items form the enum
       for (ItemType typeOfItem : ItemType.values()) {
-        type.getItems().add(typeOfItem);
+        cbType.getItems().add(typeOfItem);
       }
 
       TableColumn<Product, String> currentName = new TableColumn<>("Name");
@@ -102,16 +105,16 @@ public class Controller {
       // Obtains the input from the text fields
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
-      String newProductType = String.valueOf(type.getSelectionModel().getSelectedItem());
+      ItemType newProductType =  cbType.getValue();
       // creates a widget object to store in the database
       Widget newProduct = new Widget(newProductName, newProductMan, newProductType);
       // non constant string replaced with a prepared statement
-      String preparedStm = "INSERT INTO Product(type, manufacturer, name) VALUES ( ?, ?, ? );";
+      String preparedStm = "INSERT INTO Product(name, manufacturer, type) VALUES ( ?, ?, ? );";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
       preparedStatement.setString(1, newProduct.getName());
       preparedStatement.setString(2, newProduct.getManufacturer());
-      preparedStatement.setString(3, newProduct.getType());
+      preparedStatement.setString(3, newProductType.code);
 
       preparedStatement.executeUpdate();
       populateTable();
@@ -155,17 +158,44 @@ public class Controller {
       int numberOfColumns = rsmd.getColumnCount();
 
       ArrayList arrOfProducts = new ArrayList();
-      // These loops are used to out put the table of data to the console
+      // These loops are used to out put the table of data to the table view
       while (rs.next()) {
         String name = rs.getString("Name");
         String manufacturer = rs.getString("Manufacturer");
-        String type = rs.getString("Type");
+        String typeCode = rs.getString("Type");
+        ItemType type;
+        switch (typeCode){
+          case "AU":
+              type = ItemType.Audio;
+              break;
+          case "VI":
+            type = ItemType.Visual;
+            break;
+          case "AM":
+            type = ItemType.Audio_Mobile;
+          default:
+            type = ItemType.Visual_Mobile;
+        }
         Product tableProducts = new Widget(name, manufacturer, type);
         arrOfProducts.add(tableProducts);
       }
 
       ObservableList products = FXCollections.observableList(arrOfProducts);
       currentProducts.setItems(products);
+
+      // This adds to the production record Text area
+      for (int i = 1; i <= numberOfColumns; i++) {
+        ta.appendText(rsmd.getColumnName(i) + "\t");
+      }
+      ta.appendText("\n");
+      while (rs.next()) {
+
+        for (int i = 1; i <= numberOfColumns; i++) {
+
+          ta.appendText(rs.getString(i) + "\t");
+        }
+        ta.appendText("\n");
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }

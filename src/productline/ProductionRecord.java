@@ -24,7 +24,7 @@ public class ProductionRecord {
   }
 
   public ProductionRecord(Product newProduct, int countNumber){
-    serialNumber = newProduct.getManufacturer().substring(0,3) + newProduct.getType() + String.format("00000");
+      serialNumber = newProduct.getManufacturer().substring(0,3) + newProduct.getType().code + String.format("%05d",countNumber) ;
   }
 
   public String toString() {

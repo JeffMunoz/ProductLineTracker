@@ -30,11 +30,10 @@ public class Main extends Application {
     AudioPlayer testAudio = new AudioPlayer("beats", "dre", ".WAV", "Test");
     System.out.println(testAudio);
     Screen testScreen = new Screen("1080x720", 60, 2);
-    //System.out.println(testScreen);
+    // System.out.println(testScreen);
 
-   MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray","Sony", testScreen, MonitorType.LCD);
+    MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray", "Sony", testScreen, MonitorType.LCD);
     System.out.println(testMoviePlayer);
-
   }
 
   /**

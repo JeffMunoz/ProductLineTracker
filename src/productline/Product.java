@@ -14,9 +14,6 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
-
-
-
   public String getName() {
     return name;
   }

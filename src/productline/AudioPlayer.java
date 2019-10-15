@@ -1,9 +1,23 @@
 package productline;
 // Author: Jeff Munoz
+/**
+ * This class extends the abstract class of product and uses the interface MultiMediaControl. It
+ * creates the audio player objects through the use of one constructor, which takes in 4 arguments
+ * and calls the super constructor.
+ */
+
 public class AudioPlayer extends Product implements MultiMediaControl {
   private String supportedAudioFormats;
   private String supportedPlaylistFormats;
 
+  /**
+   * * This creates the audio player objects.
+   *
+   * @param name this is the name of the player object.
+   * @param manufacturer this is the name of the manufacturer of the object.
+   * @param supportedAudioFormats these are the possible audio formats the object can replay.
+   * @param supportedPlaylistFormats these are the playList formats
+   */
   public AudioPlayer(
       String name,
       String manufacturer,

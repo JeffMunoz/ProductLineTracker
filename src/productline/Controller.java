@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 // creates a warning that the class can be made "package private" but when changed
 // the fxml files creates an error
+
 public class Controller {
   private Statement stmt = null;
   private Connection conn = null;
@@ -35,7 +36,7 @@ public class Controller {
   @FXML private ComboBox<String> quantityCBox = new ComboBox<>();
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
-  @FXML private ChoiceBox<ItemType> cbType = new ChoiceBox();
+  @FXML private ChoiceBox<ItemType> cbType;
   @FXML private TableView currentProducts = new TableView();
   @FXML private TextArea ta = new TextArea();
 
@@ -64,7 +65,6 @@ public class Controller {
       // allows users to edit the contents of the ComboBox
       quantityCBox.getSelectionModel().selectFirst();
       quantityCBox.setEditable(true);
-      ta.clear();
 
       // Populates the choice box with the type of items form the enum
       for (ItemType typeOfItem : ItemType.values()) {
@@ -82,6 +82,7 @@ public class Controller {
       currentProducts.getColumns().add(currentManufacturer);
       currentProducts.getColumns().add(currentType);
       populateTable();
+      setTextArea();
 
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
@@ -105,7 +106,7 @@ public class Controller {
       // Obtains the input from the text fields
       String newProductName = prName.getText();
       String newProductMan = manufacturer.getText();
-      ItemType newProductType =  cbType.getValue();
+      ItemType newProductType = cbType.getValue();
       // creates a widget object to store in the database
       Widget newProduct = new Widget(newProductName, newProductMan, newProductType);
       // non constant string replaced with a prepared statement
@@ -146,17 +147,15 @@ public class Controller {
   @FXML
   private void logBtn(ActionEvent event) {
     System.out.println("Hello World!");
+    setTextArea();
   }
 
+  /** This method populates the table view in the GUI. */
   public void populateTable() {
     String sql = "SELECT * FROM PRODUCT;";
-    ResultSet rs = null;
+    ResultSet rs;
     try {
       rs = stmt.executeQuery(sql);
-
-      ResultSetMetaData rsmd = rs.getMetaData();
-      int numberOfColumns = rsmd.getColumnCount();
-
       ArrayList arrOfProducts = new ArrayList();
       // These loops are used to out put the table of data to the table view
       while (rs.next()) {
@@ -164,15 +163,16 @@ public class Controller {
         String manufacturer = rs.getString("Manufacturer");
         String typeCode = rs.getString("Type");
         ItemType type;
-        switch (typeCode){
+        switch (typeCode) {
           case "AU":
-              type = ItemType.Audio;
-              break;
+            type = ItemType.Audio;
+            break;
           case "VI":
             type = ItemType.Visual;
             break;
           case "AM":
             type = ItemType.Audio_Mobile;
+            break;
           default:
             type = ItemType.Visual_Mobile;
         }
@@ -183,16 +183,31 @@ public class Controller {
       ObservableList products = FXCollections.observableList(arrOfProducts);
       currentProducts.setItems(products);
 
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * This method populates the text area in the GUI using the information from production record.
+   */
+  public void setTextArea() {
+    try {
+      String sqlRecord = "SELECT * FROM PRODUCTIONRECORD;";
+      ResultSet results;
+      results = stmt.executeQuery(sqlRecord);
+      ResultSetMetaData rsmd = results.getMetaData();
       // This adds to the production record Text area
+      int numberOfColumns = rsmd.getColumnCount();
       for (int i = 1; i <= numberOfColumns; i++) {
         ta.appendText(rsmd.getColumnName(i) + "\t");
       }
       ta.appendText("\n");
-      while (rs.next()) {
+      while (results.next()) {
 
         for (int i = 1; i <= numberOfColumns; i++) {
 
-          ta.appendText(rs.getString(i) + "\t");
+          ta.appendText(results.getString(i) + "\t");
         }
         ta.appendText("\n");
       }

@@ -1,13 +1,14 @@
 package productline;
 // Author: Jeff Munoz
-public interface Item {
-  public String getName();
 
-  public String getManufacturer();
+interface Item {
+  String getName();
 
-  public int getId();
+  String getManufacturer();
 
-  public void setName(String name);
+  int getId();
 
-  public void setManufacturer(String manufacturer);
+  void setName(String name);
+
+  void setManufacturer(String manufacturer);
 }

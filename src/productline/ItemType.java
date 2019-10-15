@@ -1,5 +1,6 @@
 package productline;
 // Author: Jeff Munoz
+
 public enum ItemType {
   Audio("AU"),
   Visual("VI"),

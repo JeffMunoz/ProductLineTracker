@@ -1,11 +1,12 @@
 package productline;
 // Author: Jeff Munoz
+
 public interface MultiMediaControl {
-  public void play();
+  void play();
 
-  public void stop();
+  void stop();
 
-  public void previous();
+  void previous();
 
-  public void next();
+  void next();
 }

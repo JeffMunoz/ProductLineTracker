@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -115,6 +116,27 @@ public class Controller {
    */
   @FXML
   private void produceBtn(ActionEvent event) {
+    initializeDB();
+    try {
+      // non constant string replaced with a prepared statement
+      String preparedStm = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM) VALUES ( ?, ?);";
+      PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
+      // adds the parameters to the preparedStatement
+      Date testDate = new Date();
+      ProductionRecord recodedProduction = new ProductionRecord(1,2,"Test00003",testDate);
+      preparedStatement.setInt(1, recodedProduction.getProductId());
+      preparedStatement.setString(2,recodedProduction.getSerialNumber());
+      //preparedStatement.setDate(3,recodedProduction.getDateProduct());
+
+      preparedStatement.executeUpdate();
+      setTextArea();
+
+      preparedStatement.close();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    closeDb();
     System.out.println("Production Recorded");
   }
 
@@ -126,7 +148,6 @@ public class Controller {
   @FXML
   private void logBtn(ActionEvent event) {
     System.out.println("Hello World!");
-    setTextArea();
   }
 
   /** This method populates the table view in the GUI. */
@@ -163,9 +184,6 @@ public class Controller {
         }
         Product tempProduct = new Widget(name, manufacturer, type);
         arrOfProducts.add(tempProduct);
-
-        ProductionRecord serialNumbers = new ProductionRecord(tempProduct, audioCount);
-        System.out.println(serialNumbers.toString());
       }
 
       currentProducts.setItems(products);

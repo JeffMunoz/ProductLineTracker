@@ -45,10 +45,17 @@ public abstract class Product implements Item {
    * @param manufacturer this is the name of the manufacturer of the object.
    * @param type this is the type of the product.
    */
+  public Product(String name, String manufacturer, ItemType type, int id) {
+    this.name = name;
+    this.manufacturer = manufacturer;
+    this.type = type;
+    this.id = id;
+  }
   public Product(String name, String manufacturer, ItemType type) {
     this.name = name;
     this.manufacturer = manufacturer;
     this.type = type;
+
   }
 
   public String toString() {

@@ -66,6 +66,8 @@ public class Controller {
       cbType.getItems().add(typeOfItem);
     }
 
+    TableColumn<Product, Integer> idNumber = new TableColumn<>(" ID");
+    idNumber.setCellValueFactory(new PropertyValueFactory<>("id"));
     TableColumn<Product, String> currentName = new TableColumn<>("Name");
     currentName.setCellValueFactory(new PropertyValueFactory<>("name"));
     TableColumn<Product, String> currentManufacturer = new TableColumn<>("Manufacturer");
@@ -73,6 +75,7 @@ public class Controller {
     TableColumn<Product, String> currentType = new TableColumn<>("Type");
     currentType.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+    currentProducts.getColumns().add(idNumber);
     currentProducts.getColumns().add(currentName);
     currentProducts.getColumns().add(currentManufacturer);
     currentProducts.getColumns().add(currentType);
@@ -164,6 +167,7 @@ public class Controller {
         String name = rs.getString("Name");
         String manufacturer = rs.getString("Manufacturer");
         String typeCode = rs.getString("Type");
+        int itemId = rs.getInt("ID");
         ItemType type;
         switch (typeCode) {
           case "AU":
@@ -182,7 +186,7 @@ public class Controller {
             type = ItemType.Visual_Mobile;
             visualMobileCount++;
         }
-        Product tempProduct = new Widget(name, manufacturer, type);
+        Product tempProduct = new Widget(name, manufacturer, type,itemId);
         arrOfProducts.add(tempProduct);
       }
 

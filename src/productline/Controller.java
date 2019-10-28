@@ -80,7 +80,7 @@ public class Controller {
     currentProducts.getColumns().add(currentManufacturer);
     currentProducts.getColumns().add(currentType);
     populateTable();
-    setTextArea();
+    populateProductionLog();
   }
 
   /**
@@ -126,13 +126,13 @@ public class Controller {
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
       Date testDate = new Date();
-      ProductionRecord recodedProduction = new ProductionRecord(1,2,"Test00003",testDate);
+      ProductionRecord recodedProduction = new ProductionRecord(1,2,"",testDate);
       preparedStatement.setInt(1, recodedProduction.getProductId());
       preparedStatement.setString(2,recodedProduction.getSerialNumber());
       //preparedStatement.setDate(3,recodedProduction.getDateProduct());
 
       preparedStatement.executeUpdate();
-      setTextArea();
+      populateProductionLog();
 
       preparedStatement.close();
 
@@ -201,7 +201,7 @@ public class Controller {
   /**
    * This method populates the text area in the GUI using the information from production record.
    */
-  public void setTextArea() {
+  public void populateProductionLog() {
     initializeDB();
     try {
       String sqlRecord = "SELECT * FROM PRODUCTIONRECORD;";
@@ -228,6 +228,9 @@ public class Controller {
     closeDb();
   }
 
+  public void showProductionLog(){
+
+  }
   public void initializeDB() {
     // Connection to the database
     // Good place to start tutorialsPoint

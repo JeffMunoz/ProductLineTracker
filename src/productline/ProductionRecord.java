@@ -50,6 +50,7 @@ public class ProductionRecord {
             + String.format("%05d", countNumber);
   }
 
+
   @Override
   public String toString() {
     return "Production Num: "

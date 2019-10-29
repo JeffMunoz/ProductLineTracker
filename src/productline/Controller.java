@@ -125,15 +125,36 @@ public class Controller {
       String preparedStm = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM) VALUES ( ?, ?);";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
+      Product listProduct = (Product) produceList.getSelectionModel().getSelectedItem();
+      int countNum = Integer.parseInt(quantityCBox.getSelectionModel().getSelectedItem());
       Date testDate = new Date();
-      ProductionRecord recodedProduction = new ProductionRecord(1,2,"",testDate);
-      preparedStatement.setInt(1, recodedProduction.getProductId());
-      preparedStatement.setString(2,recodedProduction.getSerialNumber());
+      for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
+
+        if(listProduct.getType().code.equals("AU")){
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct,audioCount++);
+          preparedStatement.setInt(1, listProduct.getId());
+          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.executeUpdate();
+        }else if(listProduct.getType().code.equals("VI")){
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct,visualCount++);
+          preparedStatement.setInt(1, listProduct.getId());
+          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.executeUpdate();
+        }else if(listProduct.getType().code.equals("AM")){
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct,audioMobileCount++);
+          preparedStatement.setInt(1, listProduct.getId());
+          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.executeUpdate();
+        }else{
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct,visualMobileCount++);
+          preparedStatement.setInt(1, listProduct.getId());
+          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.executeUpdate();
+        }
+
+      }
       //preparedStatement.setDate(3,recodedProduction.getDateProduct());
-
-      preparedStatement.executeUpdate();
       populateProductionLog();
-
       preparedStatement.close();
 
     } catch (SQLException e) {
@@ -160,9 +181,10 @@ public class Controller {
     ResultSet rs;
     arrOfProducts.clear();
     products.clear();
+    produceList.getItems().clear();
     try {
       rs = stmt.executeQuery(sql);
-      // These loops are used to out put the table of data to the table view
+      // This loop is used to out put the table of data to the table view
       while (rs.next()) {
         String name = rs.getString("Name");
         String manufacturer = rs.getString("Manufacturer");
@@ -172,26 +194,23 @@ public class Controller {
         switch (typeCode) {
           case "AU":
             type = ItemType.Audio;
-            audioCount++;
             break;
           case "VI":
             type = ItemType.Visual;
-            visualCount++;
             break;
           case "AM":
             type = ItemType.Audio_Mobile;
-            audioMobileCount++;
             break;
           default:
             type = ItemType.Visual_Mobile;
-            visualMobileCount++;
         }
         Product tempProduct = new Widget(name, manufacturer, type,itemId);
         arrOfProducts.add(tempProduct);
+        produceList.getItems().add(tempProduct);
       }
-
+      products = FXCollections.observableList(arrOfProducts);
       currentProducts.setItems(products);
-      produceList.getItems().add(products);
+
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -203,6 +222,7 @@ public class Controller {
    */
   public void populateProductionLog() {
     initializeDB();
+    ta.clear();
     try {
       String sqlRecord = "SELECT * FROM PRODUCTIONRECORD;";
       ResultSet results;
@@ -222,6 +242,7 @@ public class Controller {
         }
         ta.appendText("\n");
       }
+
     } catch (SQLException e) {
       e.printStackTrace();
     }

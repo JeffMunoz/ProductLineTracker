@@ -48,6 +48,7 @@ public class ProductionRecord {
         newProduct.getManufacturer().substring(0, 3)
             + newProduct.getType().code
             + String.format("%05d", countNumber);
+            dateProduct = new Date();
   }
 
 

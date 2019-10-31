@@ -143,13 +143,12 @@ public class Controller {
       // adds the parameters to the preparedStatement
       Product listProduct = (Product) produceList.getSelectionModel().getSelectedItem();
       int countNum = Integer.parseInt(quantityCBox.getSelectionModel().getSelectedItem());
-      Date dateCreated = new Date();
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
-
         if (listProduct.getType().code.equals("AU")) {
           ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
           preparedStatement.setInt(1, listProduct.getId());
           preparedStatement.setString(2, recodedProduction.getSerialNumber());
+          //preparedStatement.setDate(3,recodedProduction.getDateProduct());
           preparedStatement.executeUpdate();
         } else if (listProduct.getType().code.equals("VI")) {
           ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
@@ -170,7 +169,7 @@ public class Controller {
           preparedStatement.executeUpdate();
         }
       }
-      // preparedStatement.setDate(3,recodedProduction.getDateProduct());
+
       populateProductionLog();
       preparedStatement.close();
 
@@ -254,7 +253,7 @@ public class Controller {
                 results.getInt("Production_Num"),
                 results.getInt("Product_ID"),
                 results.getString("Serial_Num"),
-                tempDate);
+                results.getDate("Date_Produced"));
         // This reads what is the database and increases the counts of the type of objects created
         if(tempRecord.getSerialNumber().substring(3,5).equals("AU")){
           audioCount++;

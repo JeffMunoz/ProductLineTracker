@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -70,7 +69,7 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
         <Button layoutX="249.0" layoutY="363.0" mnemonicParsing="false" onAction="#logBtn" styleClass="button" text="Log Production" />
-        <TextArea fx:id="ta" layoutX="9.0" layoutY="14.0" prefHeight="335.0" prefWidth="550.0" promptText="TextArea" />
+            <TableView fx:id="currentLog" layoutX="15.0" layoutY="12.0" prefHeight="324.0" prefWidth="544.0" />
 
       </AnchorPane>
 

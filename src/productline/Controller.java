@@ -42,6 +42,7 @@ public class Controller {
   @FXML private TableView currentProducts = new TableView();
   @FXML private TextArea ta = new TextArea();
   @FXML private ListView produceList = new ListView();
+  @FXML private TableView currentLog = new TableView();
   final ArrayList<Product> arrOfProducts = new ArrayList();
   ObservableList<Product> products;
   private int audioCount = 0;
@@ -79,6 +80,21 @@ public class Controller {
     currentProducts.getColumns().add(currentName);
     currentProducts.getColumns().add(currentManufacturer);
     currentProducts.getColumns().add(currentType);
+
+    TableColumn<ProductionRecord, Integer> productionNum = new TableColumn<>(" Production Number");
+    productionNum.setCellValueFactory(new PropertyValueFactory<>("productionNumber"));
+    TableColumn<ProductionRecord, Integer> productIdNum = new TableColumn<>("Product ID");
+    productIdNum.setCellValueFactory(new PropertyValueFactory<>("productId"));
+    TableColumn<ProductionRecord, String> serialNumber = new TableColumn<>("Serial Number");
+    serialNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+    TableColumn<ProductionRecord, Date> dateProduced = new TableColumn<>(" Date");
+    dateProduced.setCellValueFactory(new PropertyValueFactory<>("dateProduct"));
+
+    currentLog.getColumns().add(productionNum);
+    currentLog.getColumns().add(productIdNum);
+    currentLog.getColumns().add(serialNumber);
+    currentLog.getColumns().add(dateProduced);
+
     populateTable();
     populateProductionLog();
   }
@@ -127,33 +143,34 @@ public class Controller {
       // adds the parameters to the preparedStatement
       Product listProduct = (Product) produceList.getSelectionModel().getSelectedItem();
       int countNum = Integer.parseInt(quantityCBox.getSelectionModel().getSelectedItem());
-      Date testDate = new Date();
+      Date dateCreated = new Date();
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
 
-        if(listProduct.getType().code.equals("AU")){
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct,audioCount++);
+        if (listProduct.getType().code.equals("AU")) {
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
           preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.setString(2, recodedProduction.getSerialNumber());
           preparedStatement.executeUpdate();
-        }else if(listProduct.getType().code.equals("VI")){
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct,visualCount++);
+        } else if (listProduct.getType().code.equals("VI")) {
+          ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
           preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.setString(2, recodedProduction.getSerialNumber());
           preparedStatement.executeUpdate();
-        }else if(listProduct.getType().code.equals("AM")){
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct,audioMobileCount++);
+        } else if (listProduct.getType().code.equals("AM")) {
+          ProductionRecord recodedProduction =
+              new ProductionRecord(listProduct, audioMobileCount++);
           preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.setString(2, recodedProduction.getSerialNumber());
           preparedStatement.executeUpdate();
-        }else{
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct,visualMobileCount++);
+        } else {
+          ProductionRecord recodedProduction =
+              new ProductionRecord(listProduct, visualMobileCount++);
           preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2,recodedProduction.getSerialNumber());
+          preparedStatement.setString(2, recodedProduction.getSerialNumber());
           preparedStatement.executeUpdate();
         }
-
       }
-      //preparedStatement.setDate(3,recodedProduction.getDateProduct());
+      // preparedStatement.setDate(3,recodedProduction.getDateProduct());
       populateProductionLog();
       preparedStatement.close();
 
@@ -204,7 +221,7 @@ public class Controller {
           default:
             type = ItemType.Visual_Mobile;
         }
-        Product tempProduct = new Widget(name, manufacturer, type,itemId);
+        Product tempProduct = new Widget(name, manufacturer, type, itemId);
         arrOfProducts.add(tempProduct);
         produceList.getItems().add(tempProduct);
       }
@@ -221,37 +238,44 @@ public class Controller {
    * This method populates the text area in the GUI using the information from production record.
    */
   public void populateProductionLog() {
+    final ArrayList<ProductionRecord> recordsList = new ArrayList();
+    ObservableList<ProductionRecord> records = FXCollections.observableList(recordsList);
     initializeDB();
-    ta.clear();
+    recordsList.clear();
+    records.clear();
     try {
       String sqlRecord = "SELECT * FROM PRODUCTIONRECORD;";
       ResultSet results;
       results = stmt.executeQuery(sqlRecord);
-      ResultSetMetaData rsmd = results.getMetaData();
-      // This adds to the production record Text area
-      int numberOfColumns = rsmd.getColumnCount();
-      for (int i = 1; i <= numberOfColumns; i++) {
-        ta.appendText(rsmd.getColumnName(i) + "\t");
-      }
-      ta.appendText("\n");
       while (results.next()) {
-
-        for (int i = 1; i <= numberOfColumns; i++) {
-
-          ta.appendText(results.getString(i) + "\t");
+        Date tempDate = new Date();
+        ProductionRecord tempRecord =
+            new ProductionRecord(
+                results.getInt("Production_Num"),
+                results.getInt("Product_ID"),
+                results.getString("Serial_Num"),
+                tempDate);
+        // This reads what is the database and increases the counts of the type of objects created
+        if(tempRecord.getSerialNumber().substring(3,5).equals("AU")){
+          audioCount++;
+        }else if(tempRecord.getSerialNumber().substring(3,5).equals("VI")){
+          visualCount++;
+        }else if(tempRecord.getSerialNumber().substring(3,5).equals("AM")){
+          audioMobileCount++;
+        }else{
+          visualMobileCount++;
         }
-        ta.appendText("\n");
-      }
+        recordsList.add(tempRecord);
 
+      }
+      records = FXCollections.observableList(recordsList);
+      currentLog.setItems(records);
     } catch (SQLException e) {
       e.printStackTrace();
     }
     closeDb();
   }
 
-  public void showProductionLog(){
-
-  }
   public void initializeDB() {
     // Connection to the database
     // Good place to start tutorialsPoint
@@ -276,7 +300,8 @@ public class Controller {
       System.out.println("Error in SQL please try again");
     }
   }
-  public void closeDb(){
+
+  public void closeDb() {
     try {
       stmt.close();
       conn.close();

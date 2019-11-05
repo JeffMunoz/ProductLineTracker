@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -13,12 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
@@ -40,9 +39,9 @@ public class Controller {
   @FXML private TextField manufacturer = new TextField();
   @FXML private ChoiceBox<ItemType> cbType;
   @FXML private TableView currentProducts = new TableView();
-  @FXML private TextArea ta = new TextArea();
   @FXML private ListView produceList = new ListView();
   @FXML private TableView currentLog = new TableView();
+  @FXML private Button deleteButton = new Button();
   final ArrayList<Product> arrOfProducts = new ArrayList();
   ObservableList<Product> products;
   private int audioCount = 0;
@@ -138,34 +137,39 @@ public class Controller {
     initializeDB();
     try {
       // non constant string replaced with a prepared statement
-      String preparedStm = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM) VALUES ( ?, ?);";
+      String preparedStm = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( ?,?, ?);";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
       Product listProduct = (Product) produceList.getSelectionModel().getSelectedItem();
       int countNum = Integer.parseInt(quantityCBox.getSelectionModel().getSelectedItem());
+      Date tempDate = new Date();
+      java.sql.Timestamp sqlDate = new java.sql.Timestamp(tempDate.getTime());
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
         if (listProduct.getType().code.equals("AU")) {
           ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
           preparedStatement.setInt(1, listProduct.getId());
           preparedStatement.setString(2, recodedProduction.getSerialNumber());
-          //preparedStatement.setDate(3,recodedProduction.getDateProduct());
+          preparedStatement.setTimestamp(3,sqlDate);
           preparedStatement.executeUpdate();
         } else if (listProduct.getType().code.equals("VI")) {
           ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
           preparedStatement.setInt(1, listProduct.getId());
           preparedStatement.setString(2, recodedProduction.getSerialNumber());
+          preparedStatement.setTimestamp(3,sqlDate);
           preparedStatement.executeUpdate();
         } else if (listProduct.getType().code.equals("AM")) {
           ProductionRecord recodedProduction =
               new ProductionRecord(listProduct, audioMobileCount++);
           preparedStatement.setInt(1, listProduct.getId());
           preparedStatement.setString(2, recodedProduction.getSerialNumber());
+          preparedStatement.setTimestamp(3,sqlDate);
           preparedStatement.executeUpdate();
         } else {
           ProductionRecord recodedProduction =
               new ProductionRecord(listProduct, visualMobileCount++);
           preparedStatement.setInt(1, listProduct.getId());
           preparedStatement.setString(2, recodedProduction.getSerialNumber());
+          preparedStatement.setTimestamp(3,sqlDate);
           preparedStatement.executeUpdate();
         }
       }
@@ -180,14 +184,29 @@ public class Controller {
     System.out.println("Production Recorded");
   }
 
-  /**
-   * This is action handler that outputs to the console when the button is clicked.
-   *
-   * @param event this detects when the button is clicked.
-   */
-  @FXML
-  private void logBtn(ActionEvent event) {
-    System.out.println("Hello World!");
+  /** This method will delete the selected product from the database*/
+  public void deleteProduct() {
+    initializeDB();
+    try {
+      Product productToBeDeleted = (Product) currentProducts.getSelectionModel().getSelectedItem();
+      int delete = productToBeDeleted.getId();
+      String preparedStm = "DELETE FROM PRODUCT WHERE ID = ?;";
+      PreparedStatement preparedStatement = null;
+      preparedStatement = conn.prepareStatement(preparedStm);
+      preparedStatement.setInt(1, delete);
+      preparedStatement.executeUpdate();
+      ObservableList<Product> allProducts = currentProducts.getItems();
+      ObservableList<Product> selectedProduct = currentProducts.getSelectionModel()
+          .getSelectedItems();
+      selectedProduct.forEach(allProducts::remove);
+
+      preparedStatement.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    populateTable();
+    closeDb();
   }
 
   /** This method populates the table view in the GUI. */
@@ -247,7 +266,6 @@ public class Controller {
       ResultSet results;
       results = stmt.executeQuery(sqlRecord);
       while (results.next()) {
-        Date tempDate = new Date();
         ProductionRecord tempRecord =
             new ProductionRecord(
                 results.getInt("Production_Num"),
@@ -255,17 +273,16 @@ public class Controller {
                 results.getString("Serial_Num"),
                 results.getDate("Date_Produced"));
         // This reads what is the database and increases the counts of the type of objects created
-        if(tempRecord.getSerialNumber().substring(3,5).equals("AU")){
+        if (tempRecord.getSerialNumber().substring(3, 5).equals("AU")) {
           audioCount++;
-        }else if(tempRecord.getSerialNumber().substring(3,5).equals("VI")){
+        } else if (tempRecord.getSerialNumber().substring(3, 5).equals("VI")) {
           visualCount++;
-        }else if(tempRecord.getSerialNumber().substring(3,5).equals("AM")){
+        } else if (tempRecord.getSerialNumber().substring(3, 5).equals("AM")) {
           audioMobileCount++;
-        }else{
+        } else {
           visualMobileCount++;
         }
         recordsList.add(tempRecord);
-
       }
       records = FXCollections.observableList(recordsList);
       currentLog.setItems(records);

@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -21,8 +20,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
-// analyze-> inspect code
 // jfoenix FOR CSS
+// There's a conflict with checkstyle and formatter
+// the use of the formatter causes checkStyle to throw warnings
 /**
  * This class handles all the events that user creates from the GUI. This class uses the default
  * constructor as it does not take in a arguments.
@@ -41,7 +41,6 @@ public class Controller {
   @FXML private TableView currentProducts = new TableView();
   @FXML private ListView produceList = new ListView();
   @FXML private TableView currentLog = new TableView();
-  @FXML private Button deleteButton = new Button();
   final ArrayList<Product> arrOfProducts = new ArrayList();
   ObservableList<Product> products;
   private int audioCount = 0;
@@ -52,6 +51,7 @@ public class Controller {
    * * This is the start method of the controller, initializes the connection to the data base and
    * populates the combo box.
    */
+
   public void initialize() {
 
     products = FXCollections.observableList(arrOfProducts);
@@ -137,7 +137,8 @@ public class Controller {
     initializeDB();
     try {
       // non constant string replaced with a prepared statement
-      String preparedStm = "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( ?,?, ?);";
+      String preparedStm =
+          "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( ?,?, ?);";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
       Product listProduct = (Product) produceList.getSelectionModel().getSelectedItem();
@@ -145,32 +146,41 @@ public class Controller {
       Date tempDate = new Date();
       java.sql.Timestamp sqlDate = new java.sql.Timestamp(tempDate.getTime());
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
-        if (listProduct.getType().code.equals("AU")) {
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
-          preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2, recodedProduction.getSerialNumber());
-          preparedStatement.setTimestamp(3,sqlDate);
-          preparedStatement.executeUpdate();
-        } else if (listProduct.getType().code.equals("VI")) {
-          ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
-          preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2, recodedProduction.getSerialNumber());
-          preparedStatement.setTimestamp(3,sqlDate);
-          preparedStatement.executeUpdate();
-        } else if (listProduct.getType().code.equals("AM")) {
-          ProductionRecord recodedProduction =
-              new ProductionRecord(listProduct, audioMobileCount++);
-          preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2, recodedProduction.getSerialNumber());
-          preparedStatement.setTimestamp(3,sqlDate);
-          preparedStatement.executeUpdate();
-        } else {
-          ProductionRecord recodedProduction =
-              new ProductionRecord(listProduct, visualMobileCount++);
-          preparedStatement.setInt(1, listProduct.getId());
-          preparedStatement.setString(2, recodedProduction.getSerialNumber());
-          preparedStatement.setTimestamp(3,sqlDate);
-          preparedStatement.executeUpdate();
+        switch (listProduct.getType().code) {
+          case "AU": {
+            ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          case "VI": {
+            ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          case "AM": {
+            ProductionRecord recodedProduction =
+                new ProductionRecord(listProduct, audioMobileCount++);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          default: {
+            ProductionRecord recodedProduction =
+                new ProductionRecord(listProduct, visualMobileCount++);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
         }
       }
 
@@ -184,20 +194,20 @@ public class Controller {
     System.out.println("Production Recorded");
   }
 
-  /** This method will delete the selected product from the database*/
+  /** This method will delete the selected product from the database. */
   public void deleteProduct() {
     initializeDB();
     try {
       Product productToBeDeleted = (Product) currentProducts.getSelectionModel().getSelectedItem();
       int delete = productToBeDeleted.getId();
       String preparedStm = "DELETE FROM PRODUCT WHERE ID = ?;";
-      PreparedStatement preparedStatement = null;
+      PreparedStatement preparedStatement;
       preparedStatement = conn.prepareStatement(preparedStm);
       preparedStatement.setInt(1, delete);
       preparedStatement.executeUpdate();
       ObservableList<Product> allProducts = currentProducts.getItems();
-      ObservableList<Product> selectedProduct = currentProducts.getSelectionModel()
-          .getSelectedItems();
+      ObservableList<Product> selectedProduct =
+          currentProducts.getSelectionModel().getSelectedItems();
       selectedProduct.forEach(allProducts::remove);
 
       preparedStatement.close();
@@ -273,14 +283,19 @@ public class Controller {
                 results.getString("Serial_Num"),
                 results.getDate("Date_Produced"));
         // This reads what is the database and increases the counts of the type of objects created
-        if (tempRecord.getSerialNumber().substring(3, 5).equals("AU")) {
-          audioCount++;
-        } else if (tempRecord.getSerialNumber().substring(3, 5).equals("VI")) {
-          visualCount++;
-        } else if (tempRecord.getSerialNumber().substring(3, 5).equals("AM")) {
-          audioMobileCount++;
-        } else {
-          visualMobileCount++;
+        switch (tempRecord.getSerialNumber().substring(3, 5)) {
+          case "AU":
+            audioCount++;
+            break;
+          case "VI":
+            visualCount++;
+            break;
+          case "AM":
+            audioMobileCount++;
+            break;
+          default:
+            visualMobileCount++;
+            break;
         }
         recordsList.add(tempRecord);
       }
@@ -291,6 +306,9 @@ public class Controller {
     }
     closeDb();
   }
+  /**
+   * This method initializes the connection to the data base.
+   */
 
   public void initializeDB() {
     // Connection to the database
@@ -306,16 +324,19 @@ public class Controller {
       Class.forName(Jdbc_Driver);
       // uses an empty password for now but it will be addressed at a later time
       conn = DriverManager.getConnection(Db_Url, user, pass);
-
       stmt = conn.createStatement();
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
-      System.out.println("Unable to find class");
+      System.out.println("Check H2 Dependencies");
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Error in SQL please try again");
     }
   }
+
+  /**
+   * This method closes the connection to the data base.
+   */
 
   public void closeDb() {
     try {

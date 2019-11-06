@@ -44,11 +44,10 @@ public class ProductionRecord {
    * @param countNumber this is the number of products of a certain type.
    */
   public ProductionRecord(Product newProduct, int countNumber) {
-    serialNumber =
-        newProduct.getManufacturer().substring(0, 3)
-            + newProduct.getType().code
-            + String.format("%05d", countNumber);
-            dateProduct = new Date();
+    serialNumber = newProduct.getManufacturer().substring(0, 3)
+        + newProduct.getType().code
+        + String.format("%05d", countNumber);
+    dateProduct = new Date();
   }
 
 

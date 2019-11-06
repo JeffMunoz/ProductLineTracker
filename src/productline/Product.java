@@ -40,10 +40,11 @@ public abstract class Product implements Item {
   }
 
   /**
-   * * This creates the audio player objects.
+   * * This creates the audio player objects and takes in 4 parameters.
    * @param name this is the name of the player object.
    * @param manufacturer this is the name of the manufacturer of the object.
    * @param type this is the type of the product.
+   * @param id this int is the id of the product
    */
   public Product(String name, String manufacturer, ItemType type, int id) {
     this.name = name;
@@ -51,6 +52,14 @@ public abstract class Product implements Item {
     this.type = type;
     this.id = id;
   }
+
+  /**
+   * * This creates the audio player objects.
+   * @param name this is the name of the player object.
+   * @param manufacturer this is the name of the manufacturer of the object.
+   * @param type this is the type of the product.
+   */
+
   public Product(String name, String manufacturer, ItemType type) {
     this.name = name;
     this.manufacturer = manufacturer;

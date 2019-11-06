@@ -6,9 +6,9 @@ package productline;
  */
 
 public class Screen implements ScreenSpec {
-  private String resolution;
-  private int refreshRate;
-  private int responseTime;
+  private final String resolution;
+  private final int refreshRate;
+  private final int responseTime;
 
   /**
    * This creates the screen objects.

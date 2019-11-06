@@ -5,7 +5,6 @@ package productline;
  * creates the audio player objects through the use of one constructor, which takes in 4 arguments
  * and calls the super constructor.
  */
-
 public class AudioPlayer extends Product implements MultiMediaControl {
   private String supportedAudioFormats;
   private String supportedPlaylistFormats;

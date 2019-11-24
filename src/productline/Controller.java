@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
@@ -43,6 +44,9 @@ public class Controller {
   @FXML private TableView currentLog = new TableView();
   final ArrayList<Product> arrOfProducts = new ArrayList();
   ObservableList<Product> products;
+  @FXML private TextField empNameText = new TextField();
+  @FXML private TextField empPassText = new TextField();
+  @FXML private TextArea empArea = new TextArea();
   private int audioCount = 0;
   private int audioMobileCount = 0;
   private int visualMobileCount = 0;
@@ -51,7 +55,6 @@ public class Controller {
    * * This is the start method of the controller, initializes the connection to the data base and
    * populates the combo box.
    */
-
   public void initialize() {
 
     products = FXCollections.observableList(arrOfProducts);
@@ -147,40 +150,44 @@ public class Controller {
       java.sql.Timestamp sqlDate = new java.sql.Timestamp(tempDate.getTime());
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
         switch (listProduct.getType().code) {
-          case "AU": {
-            ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
-            preparedStatement.setInt(1, listProduct.getId());
-            preparedStatement.setString(2, recodedProduction.getSerialNumber());
-            preparedStatement.setTimestamp(3, sqlDate);
-            preparedStatement.executeUpdate();
-            break;
-          }
-          case "VI": {
-            ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
-            preparedStatement.setInt(1, listProduct.getId());
-            preparedStatement.setString(2, recodedProduction.getSerialNumber());
-            preparedStatement.setTimestamp(3, sqlDate);
-            preparedStatement.executeUpdate();
-            break;
-          }
-          case "AM": {
-            ProductionRecord recodedProduction =
-                new ProductionRecord(listProduct, audioMobileCount++);
-            preparedStatement.setInt(1, listProduct.getId());
-            preparedStatement.setString(2, recodedProduction.getSerialNumber());
-            preparedStatement.setTimestamp(3, sqlDate);
-            preparedStatement.executeUpdate();
-            break;
-          }
-          default: {
-            ProductionRecord recodedProduction =
-                new ProductionRecord(listProduct, visualMobileCount++);
-            preparedStatement.setInt(1, listProduct.getId());
-            preparedStatement.setString(2, recodedProduction.getSerialNumber());
-            preparedStatement.setTimestamp(3, sqlDate);
-            preparedStatement.executeUpdate();
-            break;
-          }
+          case "AU":
+            {
+              ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
+              preparedStatement.setInt(1, listProduct.getId());
+              preparedStatement.setString(2, recodedProduction.getSerialNumber());
+              preparedStatement.setTimestamp(3, sqlDate);
+              preparedStatement.executeUpdate();
+              break;
+            }
+          case "VI":
+            {
+              ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
+              preparedStatement.setInt(1, listProduct.getId());
+              preparedStatement.setString(2, recodedProduction.getSerialNumber());
+              preparedStatement.setTimestamp(3, sqlDate);
+              preparedStatement.executeUpdate();
+              break;
+            }
+          case "AM":
+            {
+              ProductionRecord recodedProduction =
+                  new ProductionRecord(listProduct, audioMobileCount++);
+              preparedStatement.setInt(1, listProduct.getId());
+              preparedStatement.setString(2, recodedProduction.getSerialNumber());
+              preparedStatement.setTimestamp(3, sqlDate);
+              preparedStatement.executeUpdate();
+              break;
+            }
+          default:
+            {
+              ProductionRecord recodedProduction =
+                  new ProductionRecord(listProduct, visualMobileCount++);
+              preparedStatement.setInt(1, listProduct.getId());
+              preparedStatement.setString(2, recodedProduction.getSerialNumber());
+              preparedStatement.setTimestamp(3, sqlDate);
+              preparedStatement.executeUpdate();
+              break;
+            }
         }
       }
 
@@ -306,10 +313,21 @@ public class Controller {
     }
     closeDb();
   }
-  /**
-   * This method initializes the connection to the data base.
-   */
 
+  /**
+   * This method creates and audit trail of the production line so that it records which employee
+   * recorded production.
+   */
+  @FXML
+  private void empBtn() {
+    String empName = empNameText.getText();
+    String empPassword = empPassText.getText();
+    Employee tempEmployee = new Employee(empName, empPassword);
+    empArea.clear();
+    empArea.appendText(tempEmployee.toString());
+  }
+
+  /** This method initializes the connection to the data base. */
   public void initializeDB() {
     // Connection to the database
     // Good place to start tutorialsPoint
@@ -334,10 +352,7 @@ public class Controller {
     }
   }
 
-  /**
-   * This method closes the connection to the data base.
-   */
-
+  /** This method closes the connection to the data base. */
   public void closeDb() {
     try {
       stmt.close();
@@ -346,7 +361,4 @@ public class Controller {
       e.printStackTrace();
     }
   }
-
 }
-
-

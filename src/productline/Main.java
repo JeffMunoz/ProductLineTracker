@@ -38,6 +38,9 @@ public class Main extends Application {
 
     MoviePlayer testMoviePlayer = new MoviePlayer("Blue Ray", "Sony", testScreen, MonitorType.LCD);
     System.out.println(testMoviePlayer);
+
+    Employee testEmp  = new Employee("JeffMunoz", "aBcd");
+    System.out.println(testEmp.toString());
   }
 
   /**

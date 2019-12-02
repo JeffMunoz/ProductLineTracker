@@ -1,5 +1,6 @@
 package productline;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 // Author: Jeff Munoz
-// jfoenix FOR CSS
-// There's a conflict with checkstyle and formatter
-// the use of the formatter causes checkStyle to throw warnings
+/*There's a conflict with checkstyle and formatter
+the use of the formatter causes checkStyle to throw warnings*/
 /**
  * This class handles all the events that user creates from the GUI. This class uses the default
  * constructor as it does not take in a arguments.
@@ -336,12 +337,16 @@ public class Controller {
     final String Jdbc_Driver = "org.h2.Driver";
     final String Db_Url = "jdbc:h2:./res/ProductionDB";
     final String user = "";
-    final String pass = "";
+    final String PASS;
 
     try {
+      Properties prop = new Properties();
+      prop.load(new FileInputStream("res/properties"));
+      PASS = prop.getProperty("password");
+      // final String pass = "testPass";
       Class.forName(Jdbc_Driver);
       // uses an empty password for now but it will be addressed at a later time
-      conn = DriverManager.getConnection(Db_Url, user, pass);
+      conn = DriverManager.getConnection(Db_Url, user, PASS);
       stmt = conn.createStatement();
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();
@@ -349,6 +354,8 @@ public class Controller {
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Error in SQL please try again");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

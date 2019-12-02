@@ -1,5 +1,6 @@
 package productline;
 // Author: Jeff Munoz
+// Interfaces with only one method are called functional interface
 
 interface Item {
   String getName();

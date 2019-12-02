@@ -1,5 +1,9 @@
 package productline;
-// Author: Jeff Munoz
+/**
+ * This enum class contains the available monitor types.
+ *
+ * @author Jeffry Munoz
+ */
 
 public enum MonitorType {
   LCD,

@@ -1,9 +1,10 @@
 package productline;
-// Author: Jeff Munoz
 
 /**
  * This class can not create any objects. It is made to be the super class of movie and audio
  * players.
+ *
+ * @author Jeffry Munoz
  */
 public abstract class Product implements Item {
   private String name;
@@ -41,6 +42,7 @@ public abstract class Product implements Item {
 
   /**
    * * This creates the audio player objects and takes in 4 parameters.
+   *
    * @param name this is the name of the player object.
    * @param manufacturer this is the name of the manufacturer of the object.
    * @param type this is the type of the product.
@@ -55,16 +57,15 @@ public abstract class Product implements Item {
 
   /**
    * * This creates the audio player objects.
+   *
    * @param name this is the name of the player object.
    * @param manufacturer this is the name of the manufacturer of the object.
    * @param type this is the type of the product.
    */
-
   public Product(String name, String manufacturer, ItemType type) {
     this.name = name;
     this.manufacturer = manufacturer;
     this.type = type;
-
   }
 
   public String toString() {

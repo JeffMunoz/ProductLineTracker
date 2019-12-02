@@ -1,10 +1,10 @@
 package productline;
-// Author: Jeff Munoz
 /**
  * This class uses the interface ScreenSpec. It creates the screen objects through the use of one
  * constructor, which takes in 3 arguments.
+ *
+ * @author Jeffry Munoz
  */
-
 public class Screen implements ScreenSpec {
   private final String resolution;
   private final int refreshRate;

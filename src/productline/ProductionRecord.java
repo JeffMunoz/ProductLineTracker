@@ -2,7 +2,11 @@ package productline;
 
 import java.util.Date;
 
-/** This class is used to record the production of all objects. */
+/**
+ * This class is used to record the production of all objects.
+ *
+ * @author Jeffry Munoz
+ */
 public class ProductionRecord {
   private int productionNumber;
   private int productId;
@@ -44,12 +48,12 @@ public class ProductionRecord {
    * @param countNumber this is the number of products of a certain type.
    */
   public ProductionRecord(Product newProduct, int countNumber) {
-    serialNumber = newProduct.getManufacturer().substring(0, 3)
-        + newProduct.getType().code
-        + String.format("%05d", countNumber);
+    serialNumber =
+        newProduct.getManufacturer().substring(0, 3)
+            + newProduct.getType().code
+            + String.format("%05d", countNumber);
     dateProduct = new Date();
   }
-
 
   @Override
   public String toString() {

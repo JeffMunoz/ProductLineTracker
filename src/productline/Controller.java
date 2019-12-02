@@ -16,18 +16,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-// Author: Jeff Munoz
 /*There's a conflict with checkstyle and formatter
 the use of the formatter causes checkStyle to throw warnings*/
 /**
  * This class handles all the events that user creates from the GUI. This class uses the default
  * constructor as it does not take in a arguments.
+ *
+ * @author Jeffry Munoz
  */
 // creates a warning that the class can be made "package private" but when changed
 // the fxml files creates an error
@@ -40,11 +42,14 @@ public class Controller {
   @FXML private TextField prName = new TextField();
   @FXML private TextField manufacturer = new TextField();
   @FXML private ChoiceBox<ItemType> cbType;
+  @FXML private Label prErrorLabel = new Label();
+  @FXML private Label productionErrorLabel = new Label();
+  @FXML private Label quantityErrorLabel = new Label();
   @FXML private TableView currentProducts = new TableView();
   @FXML private ListView produceList = new ListView();
   @FXML private TableView currentLog = new TableView();
-  final ArrayList<Product> arrOfProducts = new ArrayList();
-  ObservableList<Product> products;
+  private final ArrayList<Product> arrOfProducts = new ArrayList();
+  private ObservableList<Product> products;
   @FXML private TextField empNameText = new TextField();
   @FXML private TextField empPassText = new TextField();
   @FXML private TextArea empArea = new TextArea();
@@ -69,6 +74,7 @@ public class Controller {
     for (ItemType typeOfItem : ItemType.values()) {
       cbType.getItems().add(typeOfItem);
     }
+    cbType.getSelectionModel().selectFirst();
 
     TableColumn<Product, Integer> idNumber = new TableColumn<>(" ID");
     idNumber.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -100,6 +106,7 @@ public class Controller {
 
     populateTable();
     populateProductionLog();
+
   }
 
   /**
@@ -116,14 +123,20 @@ public class Controller {
       String preparedStm = "INSERT INTO Product(name, manufacturer, type) VALUES ( ?, ?, ? );";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
-      preparedStatement.setString(1, prName.getText());
-      preparedStatement.setString(2, manufacturer.getText());
-      preparedStatement.setString(3, cbType.getValue().code);
+      if (!prName.getText().isEmpty() || !manufacturer.getText().isEmpty()) {
+        preparedStatement.setString(1, prName.getText());
+        preparedStatement.setString(2, manufacturer.getText());
+        preparedStatement.setString(3, cbType.getValue().code);
 
-      preparedStatement.executeUpdate();
-      populateTable();
+        preparedStatement.executeUpdate();
+        populateTable();
 
-      preparedStatement.close();
+        preparedStatement.close();
+        prName.clear();
+        manufacturer.clear();
+      }else{
+        prErrorLabel.setText("Both Product name and Manufacturer are need. Please try again.");
+      }
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -140,6 +153,8 @@ public class Controller {
   private void produceBtn(ActionEvent event) {
     initializeDB();
     try {
+      productionErrorLabel.setText("");
+      quantityErrorLabel.setText("");
       // non constant string replaced with a prepared statement
       String preparedStm =
           "INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED) VALUES ( ?,?, ?);";
@@ -197,6 +212,10 @@ public class Controller {
 
     } catch (SQLException e) {
       e.printStackTrace();
+    } catch (NullPointerException ex){
+      productionErrorLabel.setText("A product must be selected for production to be recorded");
+    } catch (NumberFormatException e){
+      quantityErrorLabel.setText("A number is required");
     }
     closeDb();
     System.out.println("Production Recorded");

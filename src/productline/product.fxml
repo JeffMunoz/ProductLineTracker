@@ -26,7 +26,7 @@
 
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
-        <Button layoutX="246.0" layoutY="133.0" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="button" text="Add Product" />
+        <Button layoutX="318.0" layoutY="143.0" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="button" text="Add Product" />
         <GridPane alignment="CENTER_LEFT" layoutX="123.0" layoutY="14.0" prefHeight="109.0" prefWidth="285.0">
           <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="86.5999755859375" />
@@ -46,9 +46,10 @@
           <ChoiceBox fx:id="cbType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
         </GridPane>
-        <TableView fx:id="currentProducts" layoutX="52.0" layoutY="165.0" prefHeight="200.0" prefWidth="465.0" />
-        <Label layoutX="62.0" layoutY="148.0" text="Existing Products" />
-            <Button fx:id="deleteButton" layoutX="259.0" layoutY="365.0" mnemonicParsing="false" onAction="#deleteProduct" text="Delete" />
+        <TableView fx:id="currentProducts" layoutX="52.0" layoutY="183.0" prefHeight="200.0" prefWidth="465.0" />
+        <Label layoutX="52.0" layoutY="166.0" text="Existing Products" />
+            <Button fx:id="deleteButton" layoutX="261.0" layoutY="383.0" mnemonicParsing="false" onAction="#deleteProduct" text="Delete" />
+            <Label fx:id="prErrorLabel" layoutX="133.0" layoutY="123.0" />
 
       </AnchorPane>
 
@@ -57,11 +58,13 @@
 
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
-        <Button layoutX="232.0" layoutY="362.0" mnemonicParsing="false" onAction="#produceBtn" styleClass="button" text="Record Production" />
+        <Button layoutX="224.0" layoutY="329.0" mnemonicParsing="false" onAction="#produceBtn" styleClass="button" text="Record Production" />
         <Label layoutX="57.0" layoutY="6.0" text="Choose Product" />
         <ListView fx:id="produceList" layoutX="33.0" layoutY="21.0" prefHeight="256.0" prefWidth="501.0" />
-        <ComboBox fx:id="quantityCBox" editable="true" layoutX="209.0" layoutY="309.0" prefWidth="150.0" />
+        <ComboBox fx:id="quantityCBox" editable="true" layoutX="202.0" layoutY="294.0" prefWidth="150.0" />
         <Label layoutX="209.0" layoutY="277.0" text="Choose Quantity" />
+            <Label fx:id="productionErrorLabel" layoutX="196.0" layoutY="361.0" />
+            <Label fx:id="quantityErrorLabel" layoutX="263.0" layoutY="386.0" />
 
       </AnchorPane>
 
@@ -78,7 +81,7 @@
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <GridPane layoutX="119.0" layoutY="25.0" prefHeight="100.0" prefWidth="329.0">
+                  <GridPane layoutX="102.0" layoutY="25.0" prefHeight="100.0" prefWidth="346.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -95,7 +98,8 @@
                      </children>
                   </GridPane>
                   <TextArea fx:id="empArea" layoutX="14.0" layoutY="179.0" prefHeight="200.0" prefWidth="540.0" />
-                  <Button layoutX="261.0" layoutY="125.0" mnemonicParsing="false" onAction="#empBtn" prefHeight="23.0" prefWidth="218.0" text="Add" />
+                  <Button layoutX="258.0" layoutY="141.0" mnemonicParsing="false" onAction="#empBtn" prefHeight="23.0" prefWidth="218.0" text="Add" />
+                  <Label layoutX="105.0" layoutY="117.0" text="(Must contain an upper case, lower case, special character)" />
                </children>
             </AnchorPane>
          </content></Tab>

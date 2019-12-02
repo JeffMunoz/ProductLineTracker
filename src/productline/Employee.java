@@ -1,9 +1,10 @@
 package productline;
-// Author: Jeffry Munoz
 
 /**
  * This class creates the employee objects that will allow for an audit trail of the production line
  * so that it records which employee recorded production.
+ *
+ * @author Jeffry Munoz
  */
 public class Employee {
   String name;
@@ -76,6 +77,7 @@ public class Employee {
 
   /**
    * This method sets the username based on if the name of the employee is of the correct format.
+   *
    * @param username the username gets set to the incoming argument based on the checkName method.
    */
   public void setUsername(String username) {
@@ -88,9 +90,9 @@ public class Employee {
   }
   /**
    * This method sets the email based on if the name of the employee is of the correct format.
+   *
    * @param email the username gets set to the incoming argument based on the checkName method.
    */
-
   public void setEmail(String email) {
     if (email.indexOf(" ") > 0) {
       String tempEmail =

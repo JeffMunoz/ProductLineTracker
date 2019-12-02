@@ -5,6 +5,8 @@ package productline;
  * This class extends the abstract class of product and uses the interface MultiMediaControl. It
  * creates the movie player objects through the use of one constructor, which takes in 4 arguments
  * and calls the super constructor.
+ *
+ * @author Jeffry Munoz
  */
 public class MoviePlayer extends Product implements MultiMediaControl {
   private Screen screen;

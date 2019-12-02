@@ -1,5 +1,10 @@
 package productline;
-// Author: Jeff Munoz
+
+/**
+ * This Interface has the basic methods that involve the product information.
+ *
+ * @author Jeffry Munoz
+ */
 // Interfaces with only one method are called functional interface
 
 interface Item {

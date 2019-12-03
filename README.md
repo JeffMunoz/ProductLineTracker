@@ -1,10 +1,10 @@
 # ProductLineTracker
-OOP Project which aims to put into practice all of the concepts and practices learned in class. 
+OOP Project which aims to put into practice all of the concepts and practices learned in class. It does this by allowing users to input the name, manufaturer, and the type of different products. This project was developed by Jeffry Munoz independently with guidance provided by Professor Vanselow. This project was developed throughout the fall 2019 semester, this project helped greatly increase my skills as developer. This project was made as a part of an assignment. 
 
 ## Demonstration
 
 ## Documentation
-Documentation available trough Javadoc. 
+Documentation available trough [Javadoc](https://jeffmunoz.github.io/ProductLineTracker/). 
 
 ## Diagrams
 Class Diagrams:

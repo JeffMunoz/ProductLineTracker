@@ -1,5 +1,5 @@
 # ProductLineTracker
-OOP Project which aims to put into practice all of the concepts and practices learned in class. It does this by allowing users to input the name, manufaturer, and the type of different products. This project was developed by Jeffry Munoz independently with guidance provided by Professor Vanselow. This project was developed throughout the fall 2019 semester, this project helped greatly increase my skills as developer. This project was made as a part of an assignment. 
+OOP Project which aims to put into practice all of the concepts and practices learned in class. It does this by allowing users to input the name, manufacturer, and type of different products utilizing a GUI. This project was developed by Jeffry Munoz independently with guidance provided by Professor Vanselow. This project was developed throughout the fall 2019 semester, this project helped me greatly increase my skills as a developer. This project was made as a part of an assignment for COP-3003 Objected Oriented Programming at Florida Gulf Coast University. 
 
 ## Demonstration
 
@@ -15,14 +15,16 @@ Database Visualization:
 ## Getting Started
 Add a product by simply providing the specified information and the click "Add Product." The the contents of the table will be displayed. 
 ## Built With
-This program was built with JavaFX for the GUI portion and with H2 as the data base driver.
+- Created with JavaFx version 1.8 and H2 as a database.
+- CSS 3 is used for style effects.
+- Using the IntelliJ Idea 2019.2 as the IDE.
 
 ## Contributing
-
+Collaboration can be achieved through the use of a pull request.
 ## Author
 Jeffry Munoz
 ## License
-Standard
+This project is licensed under the MIT License.
 ## Acknowledgments
 Useful information about data base connections and usage provided by tutorialspoint.
 Special thanks to Professor Vanselow for his guidance.

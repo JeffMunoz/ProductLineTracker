@@ -1,6 +1,7 @@
 package productline;
 
 import java.io.FileInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -45,6 +46,7 @@ public class Controller {
   @FXML private Label prErrorLabel = new Label();
   @FXML private Label productionErrorLabel = new Label();
   @FXML private Label quantityErrorLabel = new Label();
+  @FXML private Label deleteErrorLabel =  new Label();
   @FXML private TableView currentProducts = new TableView();
   @FXML private ListView produceList = new ListView();
   @FXML private TableView currentLog = new TableView();
@@ -61,8 +63,8 @@ public class Controller {
    * * This is the start method of the controller, initializes the connection to the data base and
    * populates the combo box.
    */
-  public void initialize() {
 
+  public void initialize() {
     products = FXCollections.observableList(arrOfProducts);
     // Items to be placed in the comboBox
     quantityCBox.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
@@ -106,7 +108,6 @@ public class Controller {
 
     populateTable();
     populateProductionLog();
-
   }
 
   /**
@@ -119,11 +120,13 @@ public class Controller {
   private void handleButtonAction(ActionEvent event) {
     initializeDB();
     try {
+      //erase the label text
+      prErrorLabel.setText("");
       // non constant string replaced with a prepared statement
       String preparedStm = "INSERT INTO Product(name, manufacturer, type) VALUES ( ?, ?, ? );";
       PreparedStatement preparedStatement = conn.prepareStatement(preparedStm);
       // adds the parameters to the preparedStatement
-      if (!prName.getText().isEmpty() || !manufacturer.getText().isEmpty()) {
+      if (!prName.getText().isEmpty() && !manufacturer.getText().isEmpty()) {
         preparedStatement.setString(1, prName.getText());
         preparedStatement.setString(2, manufacturer.getText());
         preparedStatement.setString(3, cbType.getValue().code);
@@ -134,7 +137,7 @@ public class Controller {
         preparedStatement.close();
         prName.clear();
         manufacturer.clear();
-      }else{
+      } else {
         prErrorLabel.setText("Both Product name and Manufacturer are need. Please try again.");
       }
 
@@ -166,44 +169,40 @@ public class Controller {
       java.sql.Timestamp sqlDate = new java.sql.Timestamp(tempDate.getTime());
       for (int productionRunProduct = 0; productionRunProduct < countNum; productionRunProduct++) {
         switch (listProduct.getType().code) {
-          case "AU":
-            {
-              ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount++);
-              preparedStatement.setInt(1, listProduct.getId());
-              preparedStatement.setString(2, recodedProduction.getSerialNumber());
-              preparedStatement.setTimestamp(3, sqlDate);
-              preparedStatement.executeUpdate();
-              break;
-            }
-          case "VI":
-            {
-              ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount++);
-              preparedStatement.setInt(1, listProduct.getId());
-              preparedStatement.setString(2, recodedProduction.getSerialNumber());
-              preparedStatement.setTimestamp(3, sqlDate);
-              preparedStatement.executeUpdate();
-              break;
-            }
-          case "AM":
-            {
-              ProductionRecord recodedProduction =
-                  new ProductionRecord(listProduct, audioMobileCount++);
-              preparedStatement.setInt(1, listProduct.getId());
-              preparedStatement.setString(2, recodedProduction.getSerialNumber());
-              preparedStatement.setTimestamp(3, sqlDate);
-              preparedStatement.executeUpdate();
-              break;
-            }
-          default:
-            {
-              ProductionRecord recodedProduction =
-                  new ProductionRecord(listProduct, visualMobileCount++);
-              preparedStatement.setInt(1, listProduct.getId());
-              preparedStatement.setString(2, recodedProduction.getSerialNumber());
-              preparedStatement.setTimestamp(3, sqlDate);
-              preparedStatement.executeUpdate();
-              break;
-            }
+          case "AU": {
+            ProductionRecord recodedProduction = new ProductionRecord(listProduct, audioCount);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          case "VI": {
+            ProductionRecord recodedProduction = new ProductionRecord(listProduct, visualCount);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          case "AM": {
+            ProductionRecord recodedProduction =
+                new ProductionRecord(listProduct, audioMobileCount);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
+          default: {
+            ProductionRecord recodedProduction =
+                  new ProductionRecord(listProduct, visualMobileCount);
+            preparedStatement.setInt(1, listProduct.getId());
+            preparedStatement.setString(2, recodedProduction.getSerialNumber());
+            preparedStatement.setTimestamp(3, sqlDate);
+            preparedStatement.executeUpdate();
+            break;
+          }
         }
       }
 
@@ -212,19 +211,19 @@ public class Controller {
 
     } catch (SQLException e) {
       e.printStackTrace();
-    } catch (NullPointerException ex){
+    } catch (NullPointerException ex) {
       productionErrorLabel.setText("A product must be selected for production to be recorded");
-    } catch (NumberFormatException e){
-      quantityErrorLabel.setText("A number is required");
+    } catch (NumberFormatException e) {
+      quantityErrorLabel.setText("A whole number is required");
     }
     closeDb();
-    System.out.println("Production Recorded");
   }
 
   /** This method will delete the selected product from the database. */
   public void deleteProduct() {
     initializeDB();
     try {
+      deleteErrorLabel.setText("");
       Product productToBeDeleted = (Product) currentProducts.getSelectionModel().getSelectedItem();
       int delete = productToBeDeleted.getId();
       String preparedStm = "DELETE FROM PRODUCT WHERE ID = ?;";
@@ -240,6 +239,8 @@ public class Controller {
       preparedStatement.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    }catch(RuntimeException e){
+      deleteErrorLabel.setText("A product must be selected for it to be deleted");
     }
 
     populateTable();
@@ -342,9 +343,14 @@ public class Controller {
   private void empBtn() {
     String empName = empNameText.getText();
     String empPassword = empPassText.getText();
-    Employee tempEmployee = new Employee(empName, empPassword);
-    empArea.clear();
-    empArea.appendText(tempEmployee.toString());
+    if(!empName.isEmpty() && !empPassword.isEmpty()){
+      Employee tempEmployee = new Employee(empName, empPassword);
+      empArea.clear();
+      empArea.appendText(tempEmployee.toString());
+    }else{
+      empArea.clear();
+      empArea.appendText("Please enter both a name and a password.");
+    }
   }
 
   /** This method initializes the connection to the data base. */
@@ -356,16 +362,16 @@ public class Controller {
     final String Jdbc_Driver = "org.h2.Driver";
     final String Db_Url = "jdbc:h2:./res/ProductionDB";
     final String user = "";
-    final String PASS;
+    final String pass;
 
     try {
       Properties prop = new Properties();
       prop.load(new FileInputStream("res/properties"));
-      PASS = prop.getProperty("password");
+      pass = prop.getProperty("password");
       // final String pass = "testPass";
       Class.forName(Jdbc_Driver);
       // uses an empty password for now but it will be addressed at a later time
-      conn = DriverManager.getConnection(Db_Url, user, PASS);
+      conn = DriverManager.getConnection(Db_Url, user, pass);
       stmt = conn.createStatement();
     } catch (ClassNotFoundException e) {
       // e.printStackTrace();

@@ -11,6 +11,7 @@ public class Employee {
   String username;
   String password;
   String email;
+  String reversedPass;
 
   /**
    * This creates the employee objects.
@@ -23,8 +24,10 @@ public class Employee {
     checkName(name);
     if (isPasswordValid(password)) {
       this.password = password;
+      reversedPass = reverseString(password);
     } else {
       this.password = "pw";
+      reversedPass = "wp";
     }
   }
 
@@ -45,7 +48,7 @@ public class Employee {
   }
 
   /**
-   * This method Checks if the password the employee chose is valid
+   * This method Checks if the password the employee chose is valid.
    *
    * @param passToCheck the password the employee provided that will be checked.
    * @return it returns a true or false value based on whether or not the password passed the
@@ -59,8 +62,8 @@ public class Employee {
     boolean upperCase = false;
     boolean specialChar = false;
     for (int i = 0; i < passToCheck.length(); i++) {
-      String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
       charCheck = passToCheck.charAt(i);
+      String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
       if (Character.isUpperCase(charCheck)) {
         upperCase = true;
       }
@@ -71,8 +74,8 @@ public class Employee {
         specialChar = true;
       }
     }
-    boolean valid = lowerCase && upperCase && specialChar;
-    return valid;
+
+    return lowerCase && upperCase && specialChar;
   }
 
   /**
@@ -92,7 +95,8 @@ public class Employee {
    * This method sets the email based on if the name of the employee is of the correct format.
    *
    * @param email the username gets set to the incoming argument based on the checkName method.
-   */
+   */ //Use of formatter causes issues with checkStyle
+
   public void setEmail(String email) {
     if (email.indexOf(" ") > 0) {
       String tempEmail =
@@ -101,6 +105,21 @@ public class Employee {
     } else {
       this.email = email;
     }
+  }
+
+  /**
+   * This method reverses the string input using recursion.
+   *
+   * @param id the string to be reversed
+   * @return whatever the input was in reverse order
+   */
+  public String reverseString(String id) {
+    if (id.isEmpty()) {
+      return id;
+    }
+    int tmpLength = id.length() - 1;
+
+    return id.charAt(tmpLength) + reverseString(id.substring(0, tmpLength));
   }
 
   @Override
@@ -116,6 +135,9 @@ public class Employee {
         + email
         + "\n"
         + "Initial Password: "
-        + password;
+        + password
+        + "\n"
+        + "Reversed Password: "
+        + reversedPass;
   }
 }

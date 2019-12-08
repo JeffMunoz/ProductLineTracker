@@ -2,7 +2,7 @@
 OOP Project which aims to put into practice all of the concepts and practices learned in class. It does this by allowing users to input the name, manufacturer, and type of different products utilizing a GUI. This project was developed by Jeffry Munoz independently with guidance provided by Professor Vanselow. This project was developed throughout the fall 2019 semester, this project helped me greatly increase my skills as a developer. This project was made as a part of an assignment for COP-3003 Objected Oriented Programming at Florida Gulf Coast University. 
 
 ## Demonstration
-
+ ![Alt text](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/ProductionDemo.gif) 
 ## Documentation
 Documentation available trough [Javadoc](https://jeffmunoz.github.io/ProductLineTracker/). 
 

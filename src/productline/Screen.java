@@ -5,6 +5,8 @@ package productline;
  *
  * @author Jeffry Munoz
  */
+//Use of formatter causes issues with checkStyle
+
 public class Screen implements ScreenSpec {
   private final String resolution;
   private final int refreshRate;

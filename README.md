@@ -4,7 +4,7 @@ OOP Project which aims to put into practice all of the concepts and practices le
 ## Demonstration
  ![Alt text](https://raw.githubusercontent.com/JeffMunoz/ProductLineTracker/master/ProductionDemo.gif) 
 ## Documentation
-Documentation available trough [Javadoc](https://jeffmunoz.github.io/ProductLineTracker/). 
+Documentation available through [Javadoc](https://jeffmunoz.github.io/ProductLineTracker/). 
 
 ## Diagrams
 Class Diagrams:

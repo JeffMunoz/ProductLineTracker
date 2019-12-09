@@ -138,7 +138,7 @@ public class Controller {
         prName.clear();
         manufacturer.clear();
       } else {
-        prErrorLabel.setText("Both Product name and Manufacturer are need. Please try again.");
+        prErrorLabel.setText("Both Product name and Manufacturer are needed. Please try again.");
       }
 
     } catch (SQLException e) {
